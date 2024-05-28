@@ -90,7 +90,7 @@ class AgoraClassLargeActivity : AgoraEduClassActivity() {
                 // video area
                 if (getUIConfig().isStageVisible) {
                     agoraClassVideoPresenter = AgoraClassVideoPresenter(binding.agoraClassTeacherVideo)
-                    agoraClassVideoPresenter?.initView(RoomType.LARGE_CLASS, this, uiController)
+                    agoraClassVideoPresenter?.initView(RoomType.LARGE_CLASS, null,this, uiController)
 
                     binding.agoraLargeWindowContainer.videoPresenter = FCRLargeClassVideoPresenter(binding.agoraClassTeacherVideo, context)
                     binding.agoraLargeWindowContainer.initView(this)

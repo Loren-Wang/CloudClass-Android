@@ -3,6 +3,7 @@ package io.agora.classroom.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.agora.edu.component.common.UIUtils
 import com.agora.edu.component.helper.RoomPropertiesHelper
 import com.agora.edu.component.teachaids.presenter.FCRSmallClassVideoPresenter
@@ -10,12 +11,14 @@ import io.agora.agoraclasssdk.databinding.ActivityAgoraClassSmallBinding
 import io.agora.agoraeducore.core.context.*
 import io.agora.agoraeducore.core.internal.base.ToastManager
 import io.agora.agoraeducore.core.internal.framework.impl.handler.RoomHandler
+import io.agora.agoraeducore.core.internal.framework.impl.managers.AgoraWidgetRoomPropsUpdateReq
 import io.agora.agoraeducore.core.internal.log.LogX
 import io.agora.agoraeducore.extensions.widgets.bean.AgoraWidgetDefaultId
 import io.agora.agoraeduuikit.component.toast.AgoraUIToast
 import io.agora.agoraeduuikit.impl.whiteboard.bean.AgoraBoardInteractionPacket
 import io.agora.agoraeduuikit.impl.whiteboard.bean.AgoraBoardInteractionSignal
 import io.agora.classroom.common.AgoraEduClassActivity
+import io.agora.classroom.helper.ScreenDisplayManager
 import io.agora.classroom.presenter.AgoraClassVideoPresenter
 
 /**
@@ -27,6 +30,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
     override var TAG = "AgoraClassSmallActivity"
     var agoraClassVideoPresenter: AgoraClassVideoPresenter? = null
     private lateinit var binding: ActivityAgoraClassSmallBinding
+    private lateinit var screenDisplayManager: ScreenDisplayManager
 
     protected val roomHandler = object : RoomHandler() {
         override fun onJoinRoomSuccess(roomInfo: EduContextRoomInfo) {
@@ -35,6 +39,9 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
             openSystemDevices()
             handleStageStatus(RoomPropertiesHelper.isOpenStage(eduCore()))
             handleWaterMark()
+
+            //房间信息获取完成，判断是否需要更新双屏视图
+            updateMoreScreenShow()
         }
 
         override fun onJoinRoomFailure(roomInfo: EduContextRoomInfo, error: EduContextError) {
@@ -45,11 +52,13 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
         override fun onRoomPropertiesUpdated(
             properties: Map<String, Any>, cause: Map<String, Any>?,
-            operator: AgoraEduContextUserInfo?
+            operator: AgoraEduContextUserInfo?,
         ) {
             super.onRoomPropertiesUpdated(properties, cause, operator)
             // 解析并判断讲台是否关闭
             handleStageStatus(RoomPropertiesHelper.isOpenStage(eduCore()))
+            //接收到房间属性更新，从中取出数据更新视图
+            updateMoreScreenShow(properties[ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?)
         }
 
         override fun onClassStateUpdated(state: AgoraEduContextClassState) {
@@ -63,6 +72,15 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
         binding = ActivityAgoraClassSmallBinding.inflate(layoutInflater)
         setContentView(binding.root)
         createJoinRoom()
+
+        //初始化屏幕管理
+        screenDisplayManager = ScreenDisplayManager(this)
+        //todo 测试代码，用来测试教师端控制双屏功能
+        binding.agoraAreaVideo.setOnClickListener {
+            screenDisplayManager.changeMoreScreenDisplay(eduCore()?.eduContextPool(),
+                !(eduCore()!!.eduContextPool().roomContext()!!.getRoomProperties()!![ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?
+                    ?: true))
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -130,7 +148,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
                         binding.agoraAreaVideo, binding.agoraClassTeacherVideo,
                         binding.agoraClassUserListVideo, context
                     )
-                    agoraClassVideoPresenter?.initView(getRoomType(), this, uiController)
+                    agoraClassVideoPresenter?.initView(getRoomType(), null,this, uiController)
                 }
 
                 // white area
@@ -173,6 +191,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
     override fun onRelease() {
         super.onRelease()
+        screenDisplayManager.releaseTeacherVideoPresentation()
         agoraClassVideoPresenter?.release()
         binding.agoraEduOptions.release()
         binding.agoraEduWhiteboard.release()
@@ -209,5 +228,19 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
         }
 
         LogX.i(TAG, "watermark = $watermark")
+    }
+
+    /**
+     * 更新多屏显示
+     * @param showMore 是否显示副屏
+     */
+    fun updateMoreScreenShow(
+        showMore: Boolean? = (eduCore()?.eduContextPool()?.roomContext()?.getRoomProperties()
+            ?.get(ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY) as Boolean?) ?: true,
+    ) {
+        agoraClassVideoPresenter?.videoSubscribeLevel =
+            if (true == showMore) AgoraEduContextVideoSubscribeLevel.HIGH else AgoraEduContextVideoSubscribeLevel.LOW
+        screenDisplayManager.resetShowMoreDisplay(showMore ?: false, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,
+            eduCore()?.eduContextPool())
     }
 }

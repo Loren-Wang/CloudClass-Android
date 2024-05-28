@@ -45,9 +45,12 @@ class AgoraClassVideoPresenter(
     private var eduCore: AgoraEduCore? = null
     private var roomType: RoomType? = null
     var agoraUIProvider: IAgoraUIProvider? = null
+    //教师端视频流加载模式
+    var videoSubscribeLevel: AgoraEduContextVideoSubscribeLevel = AgoraEduContextVideoSubscribeLevel.LOW
 
-    fun initView(roomType: RoomType?, agoraUIProvider: IAgoraUIProvider, uiController: AgoraClassUIController?) {
+    fun initView(roomType: RoomType?,videoSubscribeLevel:AgoraEduContextVideoSubscribeLevel?, agoraUIProvider: IAgoraUIProvider, uiController: AgoraClassUIController?) {
         this.roomType = roomType
+        this.videoSubscribeLevel = videoSubscribeLevel ?: this.videoSubscribeLevel
         this.eduCore = agoraUIProvider.getAgoraEduCore()
         this.localUserInfo = eduCore?.eduContextPool()?.userContext()?.getLocalUserInfo()
         this.agoraUIProvider = agoraUIProvider
@@ -178,8 +181,7 @@ class AgoraClassVideoPresenter(
             teacherInfo?.let {
                 if (!teacherVideoView.largeWindowOpened) {
                     teacherVideoView.upsertUserDetailInfo(it)
-                    eduCore?.eduContextPool()?.streamContext()
-                        ?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, AgoraEduContextVideoSubscribeLevel.LOW)
+                    eduCore?.eduContextPool()?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, this@AgoraClassVideoPresenter.videoSubscribeLevel)
                 }
             }
         }
