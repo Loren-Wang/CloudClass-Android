@@ -1,0 +1,52 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="io.agora.online" >
+4
+5    <uses-sdk android:minSdkVersion="21" />
+5-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml
+6
+7    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+7-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:5:5-81
+7-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:5:22-78
+8    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+8-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:6:5-80
+8-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:6:22-77
+9
+10    <!-- 保证不休眠，进而可以正常发送心跳包  环信 -->
+11    <uses-permission android:name="android.permission.WAKE_LOCK" />
+11-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:9:5-68
+11-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:9:22-65
+12
+13    <application>
+13-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:11:5-27:19
+14        <activity
+14-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:12:9-18:73
+15            android:name="io.agora.online.sdk.AgoraOnlineClassActivity"
+15-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:13:13-57
+16            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+16-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:14:13-98
+17            android:launchMode="singleTask"
+17-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:15:13-44
+18            android:screenOrientation="landscape"
+18-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:16:13-50
+19            android:theme="@style/AgoraAppThemeFullScreen"
+19-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:17:13-59
+20            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+20-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:18:13-70
+21        <activity
+21-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:20:9-26:73
+22            android:name="io.agora.online.sdk.AgoraOnlineClassGroupActivity"
+22-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:21:13-62
+23            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+23-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:22:13-98
+24            android:launchMode="singleTask"
+24-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:23:13-44
+25            android:screenOrientation="landscape"
+25-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:24:13-50
+26            android:theme="@style/AgoraAppThemeFullScreen"
+26-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:25:13-59
+27            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+27-->/Users/hefeng02/cloudclass/cloudclass-android/AgoraCloudScene/src/main/AndroidManifest.xml:26:13-70
+28    </application>
+29
+30</manifest>

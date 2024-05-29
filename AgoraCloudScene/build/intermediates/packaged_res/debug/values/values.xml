@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <integer-array name="agora_board_font_sizes">
+        <item>20</item>
+        <item>28</item>
+        <item>36</item>
+        <item>48</item>
+    </integer-array>
+    <string-array name="agora_tool_color_plate">
+        <item>#9B9B9B</item>
+        <item>#4A4A4A</item>
+        <item>#000000</item>
+        <item>#D0021B</item>
+        <item>#F5A623</item>
+        <item>#F8E71C</item>
+        <item>#7ED321</item>
+        <item>#EB47A2</item>
+        <item>#9013FE</item>
+        <item>#50E3C2</item>
+        <item>#0073FF</item>
+        <item>#FFC8E2</item>
+    </string-array>
+    <array name="answer_item">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+        <item>H</item>
+    </array>
+    <array name="com_google_android_gms_fonts_certs">
+        <item>@array/com_google_android_gms_fonts_certs_dev</item>
+        <item>@array/com_google_android_gms_fonts_certs_prod</item>
+    </array>
+    <string-array name="com_google_android_gms_fonts_certs_dev">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWFuGx90071MA0GCSqGSIb3DQEBBAUAMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTAeFw0wODA0MTUyMzM2NTZaFw0zNTA5MDEyMzM2NTZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBANbOLggKv+IxTdGNs8/TGFy0PTP6DHThvbbR24kT9ixcOd9W+EaBPWW+wPPKQmsHxajtWjmQwWfna8mZuSeJS48LIgAZlKkpFeVyxW0qMBujb8X8ETrWy550NaFtI6t9+u7hZeTfHwqNvacKhp1RbE6dBRGWynwMVX8XW8N1+UjFaq6GCJukT4qmpN2afb8sCjUigq0GuMwYXrFVee74bQgLHWGJwPmvmLHC69EH6kWr22ijx4OKXlSIx2xT1AsSHee70w5iDBiK4aph27yH3TxkXy9V89TDdexAcKk/cVHYNnDBapcavl7y0RiQ4biu8ymM8Ga/nmzhRKya6G0cGw8CAQOjgfwwgfkwHQYDVR0OBBYEFI0cxb6VTEM8YYY6FbBMvAPyT+CyMIHJBgNVHSMEgcEwgb6AFI0cxb6VTEM8YYY6FbBMvAPyT+CyoYGapIGXMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbYIJANWFuGx90071MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEEBQADggEBABnTDPEF+3iSP0wNfdIjIz1AlnrPzgAIHVvXxunW7SBrDhEglQZBbKJEk5kT0mtKoOD1JMrSu1xuTKEBahWRbqHsXclaXjoBADb0kkjVEJu/Lh5hgYZnOjvlba8Ld7HCKePCVePoTJBdI4fvugnL8TsgK05aIskyY0hKI9L8KfqfGTl1lzOv2KoWD0KWwtAWPoGChZxmQ+nBli+gwYMzM1vAkP+aayLe0a1EQimlOalO762r0GXO0ks+UeXde2Z4e+8S/pf7pITEI/tP+MxJTALw9QUWEv9lKTk+jkbqxbsh8nfBUapfKqYn0eidpwq2AzVp3juYl7//fKnaPhJD9gs=
+        </item>
+    </string-array>
+    <string-array name="com_google_android_gms_fonts_certs_prod">
+        <item>
+            MIIEQzCCAyugAwIBAgIJAMLgh0ZkSjCNMA0GCSqGSIb3DQEBBAUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDAeFw0wODA4MjEyMzEzMzRaFw0zNjAxMDcyMzEzMzRaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBAKtWLgDYO6IIrgqWbxJOKdoR8qtW0I9Y4sypEwPpt1TTcvZApxsdyxMJZ2JORland2qSGT2y5b+3JKkedxiLDmpHpDsz2WCbdxgxRczfey5YZnTJ4VZbH0xqWVW/8lGmPav5xVwnIiJS6HXk+BVKZF+JcWjAsb/GEuq/eFdpuzSqeYTcfi6idkyugwfYwXFU1+5fZKUaRKYCwkkFQVfcAs1fXA5V+++FGfvjJ/CxURaSxaBvGdGDhfXE28LWuT9ozCl5xw4Yq5OGazvV24mZVSoOO0yZ31j7kYvtwYK6NeADwbSxDdJEqO4k//0zOHKrUiGYXtqw/A0LFFtqoZKFjnkCAQOjgdkwgdYwHQYDVR0OBBYEFMd9jMIhF1Ylmn/Tgt9r45jk14alMIGmBgNVHSMEgZ4wgZuAFMd9jMIhF1Ylmn/Tgt9r45jk14aloXikdjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWSCCQDC4IdGZEowjTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4IBAQBt0lLO74UwLDYKqs6Tm8/yzKkEu116FmH4rkaymUIE0P9KaMftGlMexFlaYjzmB2OxZyl6euNXEsQH8gjwyxCUKRJNexBiGcCEyj6z+a1fuHHvkiaai+KL8W1EyNmgjmyy8AW7P+LLlkR+ho5zEHatRbM/YAnqGcFh5iZBqpknHf1SKMXFh4dd239FJ1jWYfbMDMy3NS5CTMQ2XFI1MvcyUTdZPErjQfTbQe3aDQsQcafEQPD+nqActifKZ0Np0IS9L9kR/wbNvyz6ENwPiTrjV2KRkEjH78ZMcUQXg0L3BYHJ3lc69Vs5Ddf9uUGGMYldX3WfMBEmh/9iFBDAaTCK
+        </item>
+    </string-array>
+    <color name="agora_board_default_stroke">#0073FF</color>
+    <color name="agora_board_line_color">#ECECF1</color>
+    <color name="agora_chat_error_icon_color">#FF0D19</color>
+    <color name="agora_def_color">#0073FF</color>
+    <color name="agora_edu_pending_container_color">#F9F9FC</color>
+    <color name="agora_network_disk_bg_color">#E3E3EC</color>
+    <color name="agora_video_trophy_text_shadow_color">#cc0d1d3d</color>
+    <color name="agora_wb_icon_def_circle_color">#E1E1EA</color>
+    <color name="agora_wb_icon_def_color">#7B88A0</color>
+    <color name="agora_wb_icon_gray_color">#e2e2ee</color>
+    <color name="fcr_announcement_bg">#F5ECCE</color>
+    <color name="fcr_black">#000000</color>
+    <color name="fcr_blue">#357BF6</color>
+    <color name="fcr_blue_357BF6">#357BF6</color>
+    <color name="fcr_blue_4262">#4262FF</color>
+    <color name="fcr_blue_C0D6FF">#C0D6FF</color>
+    <color name="fcr_chat_icon_color">#F7F7F7F7</color>
+    <color name="fcr_class_room_bg">@color/fcr_system_background_color</color>
+    <color name="fcr_colorAccent">#44A2FC</color>
+    <color name="fcr_colorPrimary">#F5F7F8</color>
+    <color name="fcr_colorPrimaryDark">#F5F7F8</color>
+    <color name="fcr_deep_blue">#4D6277</color>
+    <color name="fcr_gray">#BDBDBD</color>
+    <color name="fcr_gray_191919">#191919</color>
+    <color name="fcr_gray_333333">#333333</color>
+    <color name="fcr_gray_666666">#666666</color>
+    <color name="fcr_gray_7D8798">#7D8798</color>
+    <color name="fcr_gray_D7D7E6">#D7D7E6</color>
+    <color name="fcr_gray_EEEEEE">#EEEEEE</color>
+    <color name="fcr_gray_light">#F2F2F2</color>
+    <color name="fcr_gray_normal">#666667</color>
+    <color name="fcr_icon_fill_color">#357BF6</color>
+    <color name="fcr_icon_line_color">#EEEEF7</color>
+    <color name="fcr_icon_normal_color">#7B88A0</color>
+    <color name="fcr_im_input_bg">#F9F9FC</color>
+    <color name="fcr_im_input_bg_line">#E3E7EF</color>
+    <color name="fcr_message_et_bg">#fff2f2f2</color>
+    <color name="fcr_normal_bg">#CEE3F6</color>
+    <color name="fcr_purple_200">#FFBB86FC</color>
+    <color name="fcr_purple_500">#FF6200EE</color>
+    <color name="fcr_purple_700">#FF3700B3</color>
+    <color name="fcr_red">#ffff0000</color>
+    <color name="fcr_red_FF0D19">#FF0D19</color>
+    <color name="fcr_system_background_color">#F9F9FC</color>
+    <color name="fcr_system_brand_color">#357BF6</color>
+    <color name="fcr_system_component_color">#FFFFFF</color>
+    <color name="fcr_system_component_highlight_color">#F7F7FA</color>
+    <color name="fcr_system_divider_color">#EEEEF7</color>
+    <color name="fcr_system_error_color">#F5655C</color>
+    <color name="fcr_system_foreground_color">#FFFFFF</color>
+    <color name="fcr_system_safe_color">#64BB5C</color>
+    <color name="fcr_system_warning_color">#FFB554</color>
+    <color name="fcr_teal_200">#FF03DAC5</color>
+    <color name="fcr_teal_700">#FF018786</color>
+    <color name="fcr_text_contrast_color">#FFFFFF</color>
+    <color name="fcr_text_disabled_color">#BDBDCA</color>
+    <color name="fcr_text_enabled_color">#357BF6</color>
+    <color name="fcr_text_level1_color">#191919</color>
+    <color name="fcr_text_level2_color">#586376</color>
+    <color name="fcr_text_level3_color">#7B88A0</color>
+    <color name="fcr_text_red">#F5655C</color>
+    <color name="fcr_transparent">#00000000</color>
+    <color name="fcr_v2_yellow">#FFC700</color>
+    <color name="fcr_white">#FFFFFF</color>
+    <color name="fcr_white2">#0AFFFFFF</color>
+    <color name="iclicker_answer_list_header">#F8F8FC</color>
+    <color name="iclicker_answer_list_header_text">#7B88A0</color>
+    <color name="iclicker_answer_list_item_correct">#3AB449</color>
+    <color name="iclicker_answer_list_item_error">#F04C36</color>
+    <color name="iclicker_answer_list_item_text">#191919</color>
+    <color name="iclicker_answer_list_stroke">#EBEBF6</color>
+    <color name="setting_button_default_bg">#F4F4F8</color>
+    <color name="setting_button_text_color_default">#B5B5C9</color>
+    <color name="theme_black">#000000</color>
+    <color name="theme_blue_gray">#639AFA</color>
+    <color name="theme_blue_light">#357BF6</color>
+    <color name="theme_border_class_room">#ECECF1</color>
+    <color name="theme_border_class_room_container">#ECECF1</color>
+    <color name="theme_disable">#E2E2EE</color>
+    <color name="theme_divider_color">#EEEEF7</color>
+    <color name="theme_divider_color_gray">#EEEEF7</color>
+    <color name="theme_gray_dark">#F9F9FC</color>
+    <color name="theme_gray_dialog_bg">#E1EBFC</color>
+    <color name="theme_gray_light">#DEDEDE</color>
+    <color name="theme_gray_lighter">#F9F9FC</color>
+    <color name="theme_hint_text_color">#677386</color>
+    <color name="theme_text_color_black">#191919</color>
+    <color name="theme_text_color_class_time">#677386</color>
+    <color name="theme_text_color_dark_gray">#586376</color>
+    <color name="theme_text_color_dark_gray2">#BDBDCA</color>
+    <color name="theme_text_color_gray">#7B88A0</color>
+    <color name="theme_text_color_orange_red">#F04C36</color>
+    <color name="theme_white">#FFFFFF</color>
+    <color name="toast_classtime_countdown_time">#FE313F</color>
+    <dimen name="agora_appliance_item_margin">12dp</dimen>
+    <dimen name="agora_appliance_item_size_large">30dp</dimen>
+    <dimen name="agora_appliance_item_size_normal">28dp</dimen>
+    <dimen name="agora_appliance_pen_m_margin">8dp</dimen>
+    <dimen name="agora_board_loading_img_h">40dp</dimen>
+    <dimen name="agora_board_loading_img_w">40dp</dimen>
+    <dimen name="agora_board_loading_view_corner_radius">8dp</dimen>
+    <dimen name="agora_board_loading_view_elevation">2dp</dimen>
+    <dimen name="agora_c_1">6dp</dimen>
+    <dimen name="agora_c_2">8dp</dimen>
+    <dimen name="agora_c_3">12dp</dimen>
+    <dimen name="agora_c_4">16dp</dimen>
+    <dimen name="agora_c_5">20dp</dimen>
+    <dimen name="agora_class_options_margin">6dp</dimen>
+    <dimen name="agora_dialog_icon_size">80dp</dimen>
+    <dimen name="agora_dialog_margin_top_large">20dp</dimen>
+    <dimen name="agora_dialog_margin_top_medium">14dp</dimen>
+    <dimen name="agora_dialog_width">280dp</dimen>
+    <dimen name="agora_edu_chat_height">300dp</dimen>
+    <dimen name="agora_edu_chat_width">270dp</dimen>
+    <dimen name="agora_edu_pen_color_select_size">24dp</dimen>
+    <dimen name="agora_edu_pen_color_size">22dp</dimen>
+    <dimen name="agora_edu_text_t_1">8dp</dimen>
+    <dimen name="agora_edu_text_t_2">10dp</dimen>
+    <dimen name="agora_edu_text_t_3">12dp</dimen>
+    <dimen name="agora_edu_text_t_4">14dp</dimen>
+    <dimen name="agora_edu_wb_open_color_radius">4dp</dimen>
+    <dimen name="agora_edu_wb_open_color_stroke">2dp</dimen>
+    <dimen name="agora_edu_wb_tool_parent_width">213dp</dimen>
+    <dimen name="agora_edu_wb_tool_width">193dp</dimen>
+    <dimen name="agora_floating_window_option_ic_size">16dp</dimen>
+    <dimen name="agora_head_h_small">14dp</dimen>
+    <dimen name="agora_kick_dialog_line_height">22dp</dimen>
+    <dimen name="agora_kick_dialog_option_button_size">18dp</dimen>
+    <dimen name="agora_kick_dialog_option_margin_left">22dp</dimen>
+    <dimen name="agora_kick_dialog_option_text_margin_left">10dp</dimen>
+    <dimen name="agora_kick_dialog_option_text_size">16sp</dimen>
+    <dimen name="agora_large_video_h">95dp</dimen>
+    <dimen name="agora_large_video_w">115dp</dimen>
+    <dimen name="agora_message_caution_height">30dp</dimen>
+    <dimen name="agora_message_caution_icon_size">16dp</dimen>
+    <dimen name="agora_message_icon_size">20dp</dimen>
+    <dimen name="agora_message_input_layout_corner">10dp</dimen>
+    <dimen name="agora_message_input_layout_height">40dp</dimen>
+    <dimen name="agora_message_input_margin_left">6dp</dimen>
+    <dimen name="agora_message_input_margin_right">12dp</dimen>
+    <dimen name="agora_message_item_icon_size">20dp</dimen>
+    <dimen name="agora_message_item_message_min_margin">38dp</dimen>
+    <dimen name="agora_message_no_content_icon_size">104dp</dimen>
+    <dimen name="agora_message_send_btn_height">24dp</dimen>
+    <dimen name="agora_message_send_btn_width">40dp</dimen>
+    <dimen name="agora_message_title_layout_height">32dp</dimen>
+    <dimen name="agora_message_unread_count_radius">2dp</dimen>
+    <dimen name="agora_message_unread_count_size">4dp</dimen>
+    <dimen name="agora_option_handsup_list_popup_h">250dp</dimen>
+    <dimen name="agora_option_handsup_list_popup_w">200dp</dimen>
+    <dimen name="agora_option_item_appliance_bottom">12dp</dimen>
+    <dimen name="agora_option_item_w">33dp</dimen>
+    <dimen name="agora_option_item_w2">32dp</dimen>
+    <dimen name="agora_screen_share_view_corner">4dp</dimen>
+    <dimen name="agora_setting_dialog_switch_corner">13dp</dimen>
+    <dimen name="agora_setting_popup_facing_button_height">22dp</dimen>
+    <dimen name="agora_setting_popup_facing_button_width">40dp</dimen>
+    <dimen name="agora_setting_popup_leave_button_height">30dp</dimen>
+    <dimen name="agora_setting_popup_leave_button_radius">6dp</dimen>
+    <dimen name="agora_setting_popup_leave_button_width">172dp</dimen>
+    <dimen name="agora_setting_popup_line_height">22dp</dimen>
+    <dimen name="agora_setting_popup_margin_horizontal">15dp</dimen>
+    <dimen name="agora_setting_popup_margin_vertical">12dp</dimen>
+    <dimen name="agora_setting_popup_margin_vertical_top">32dp</dimen>
+    <dimen name="agora_setting_popup_switch_corner">12dp</dimen>
+    <dimen name="agora_setting_popup_switch_height">15dp</dimen>
+    <dimen name="agora_setting_popup_switch_thumb_padding">2dp</dimen>
+    <dimen name="agora_setting_popup_switch_thumb_side_padding">16dp</dimen>
+    <dimen name="agora_setting_popup_switch_thumb_size">16dp</dimen>
+    <dimen name="agora_setting_popup_switch_width">30dp</dimen>
+    <dimen name="agora_setting_popup_text_size">12dp</dimen>
+    <dimen name="agora_small_video_h">52dp</dimen>
+    <dimen name="agora_small_video_w">92dp</dimen>
+    <dimen name="agora_status_bar_height">34dp</dimen>
+    <dimen name="agora_status_bar_icon_size">14dp</dimen>
+    <dimen name="agora_toast_board_permission_bg_corner">15dp</dimen>
+    <dimen name="agora_toast_board_permission_content_layout_margin_bottom">4dp</dimen>
+    <dimen name="agora_toast_board_permission_content_layout_margin_start">10dp</dimen>
+    <dimen name="agora_toast_board_permission_content_layout_margin_top">4dp</dimen>
+    <dimen name="agora_toast_board_permission_content_margin_end">10dp</dimen>
+    <dimen name="agora_toast_board_permission_content_margin_start">18dp</dimen>
+    <dimen name="agora_toast_board_permission_content_size">10dp</dimen>
+    <dimen name="agora_toast_board_permission_img_h">32dp</dimen>
+    <dimen name="agora_toast_board_permission_img_w">24dp</dimen>
+    <dimen name="agora_tool_popup_layout_width">166dp</dimen>
+    <dimen name="agora_userlist_dialog_elevation">4dp</dimen>
+    <dimen name="agora_userlist_dialog_h">253dp</dimen>
+    <dimen name="agora_userlist_dialog_large_h">214dp</dimen>
+    <dimen name="agora_userlist_dialog_large_w">280dp</dimen>
+    <dimen name="agora_userlist_dialog_w">460dp</dimen>
+    <dimen name="agora_userlist_row_height">31dp</dimen>
+    <dimen name="agora_userlist_row_icon_height">22dp</dimen>
+    <dimen name="agora_video_distance">2dp</dimen>
+    <dimen name="agora_video_name_margin_start">2dp</dimen>
+    <dimen name="agora_video_name_margin_top">4dp</dimen>
+    <dimen name="agora_video_name_text_h">17dp</dimen>
+    <dimen name="agora_video_name_text_size">10sp</dimen>
+    <dimen name="agora_video_options_layout_margin">2dp</dimen>
+    <dimen name="agora_video_text_shadow_dx">0</dimen>
+    <dimen name="agora_video_text_shadow_dy">1</dimen>
+    <dimen name="agora_video_text_shadow_radius">3</dimen>
+    <dimen name="agora_video_trophy_text_margin_start">4dp</dimen>
+    <dimen name="agora_video_trophy_text_size">12sp</dimen>
+    <dimen name="agora_video_view_corner">4dp</dimen>
+    <dimen name="agora_wb_tools_margin_bottom">6dp</dimen>
+    <dimen name="agora_wb_tools_margin_left">12dp</dimen>
+    <dimen name="agora_wb_tools_margin_left_icon">56dp</dimen>
+    <dimen name="avatar_size">20dp</dimen>
+    <dimen name="chat_view_icon_size">24dp</dimen>
+    <dimen name="corner_large">12dp</dimen>
+    <dimen name="corner_small">4dp</dimen>
+    <dimen name="divider_large">8dp</dimen>
+    <dimen name="divider_thin">1dp</dimen>
+    <dimen name="divider_thinner">0.5dp</dimen>
+    <dimen name="dp_0">0.0000dp</dimen>
+    <dimen name="dp_1">1.0000dp</dimen>
+    <dimen name="dp_10">10.0000dp</dimen>
+    <dimen name="dp_100">100.0000dp</dimen>
+    <dimen name="dp_14">14.0000dp</dimen>
+    <dimen name="dp_146">146.0000dp</dimen>
+    <dimen name="dp_150">150.0000dp</dimen>
+    <dimen name="dp_16">16.0000dp</dimen>
+    <dimen name="dp_18">18.0000dp</dimen>
+    <dimen name="dp_2">2.0000dp</dimen>
+    <dimen name="dp_20">20.0000dp</dimen>
+    <dimen name="dp_234">234.0000dp</dimen>
+    <dimen name="dp_25">25.0000dp</dimen>
+    <dimen name="dp_3">3.0000dp</dimen>
+    <dimen name="dp_30">30.0000dp</dimen>
+    <dimen name="dp_32">32.0000dp</dimen>
+    <dimen name="dp_320">320.0000dp</dimen>
+    <dimen name="dp_33">33.0000dp</dimen>
+    <dimen name="dp_35">35.0000dp</dimen>
+    <dimen name="dp_4">4.0000dp</dimen>
+    <dimen name="dp_40">40.0000dp</dimen>
+    <dimen name="dp_420">420.0000dp</dimen>
+    <dimen name="dp_44">44.0000dp</dimen>
+    <dimen name="dp_450">450.0000dp</dimen>
+    <dimen name="dp_48">48.0000dp</dimen>
+    <dimen name="dp_5">5.0000dp</dimen>
+    <dimen name="dp_6">6.0000dp</dimen>
+    <dimen name="dp_7">7.0000dp</dimen>
+    <dimen name="dp_70">70.0000dp</dimen>
+    <dimen name="dp_72">72.0000dp</dimen>
+    <dimen name="dp_8">8.0000dp</dimen>
+    <dimen name="dp_88">88.0000dp</dimen>
+    <dimen name="dp_9">9.0000dp</dimen>
+    <dimen name="ease_chat_layout_h">287dp</dimen>
+    <dimen name="ease_chat_layout_w">200dp</dimen>
+    <dimen name="fcr_announcement_edit_height">130dp</dimen>
+    <dimen name="fcr_avatar_size">20dp</dimen>
+    <dimen name="fcr_chat_view_icon_size">24dp</dimen>
+    <dimen name="fcr_default_layout_icon_size">80dp</dimen>
+    <dimen name="fcr_ease_chat_layout_h">287dp</dimen>
+    <dimen name="fcr_ease_chat_layout_w">200dp</dimen>
+    <dimen name="fcr_font_heading01">17dp</dimen>
+    <dimen name="fcr_font_heading02">14dp</dimen>
+    <dimen name="fcr_font_heading03">13dp</dimen>
+    <dimen name="fcr_font_heading04">12dp</dimen>
+    <dimen name="fcr_font_size1">9dp</dimen>
+    <dimen name="fcr_font_size2">10dp</dimen>
+    <dimen name="fcr_font_size3">11dp</dimen>
+    <dimen name="fcr_font_size4">12dp</dimen>
+    <dimen name="fcr_font_size5">13dp</dimen>
+    <dimen name="fcr_font_size6">17dp</dimen>
+    <dimen name="fcr_hide_icon_size">50dp</dimen>
+    <dimen name="fcr_input_height">32dp</dimen>
+    <dimen name="fcr_input_icon_size">34dp</dimen>
+    <dimen name="fcr_input_margin_right">16dp</dimen>
+    <dimen name="fcr_local_video_bottom">15dp</dimen>
+    <dimen name="fcr_local_video_h">70dp</dimen>
+    <dimen name="fcr_local_video_right">60dp</dimen>
+    <dimen name="fcr_local_video_w">124dp</dimen>
+    <dimen name="fcr_margin_middle">10dp</dimen>
+    <dimen name="fcr_margin_normal">5dp</dimen>
+    <dimen name="fcr_minSp">12sp</dimen>
+    <dimen name="fcr_nickName_max_width">100dp</dimen>
+    <dimen name="fcr_padding_high">15dp</dimen>
+    <dimen name="fcr_padding_middle">10dp</dimen>
+    <dimen name="fcr_padding_normal">5dp</dimen>
+    <dimen name="fcr_quick_start_1">174dp</dimen>
+    <dimen name="fcr_quick_start_2">230dp</dimen>
+    <dimen name="fcr_share_room_link_w">280dp</dimen>
+    <dimen name="fcr_snackbar_dis">100dp</dimen>
+    <dimen name="fcr_tab_textSize">16sp</dimen>
+    <dimen name="fcr_textSize">13sp</dimen>
+    <dimen name="fcr_text_size_smallest">8sp</dimen>
+    <dimen name="fcr_unread_count_size">12dp</dimen>
+    <dimen name="fcr_wv_height">287dp</dimen>
+    <dimen name="fcr_wv_width">410dp</dimen>
+    <dimen name="hide_icon_size">50dp</dimen>
+    <dimen name="input_height">32dp</dimen>
+    <dimen name="input_icon_size">34dp</dimen>
+    <dimen name="input_margin_right">16dp</dimen>
+    <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_larger">15dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_middle">10dp</dimen>
+    <dimen name="margin_normal">5dp</dimen>
+    <dimen name="margin_small">3dp</dimen>
+    <dimen name="margin_smaller">2dp</dimen>
+    <dimen name="nickName_max_width">100dp</dimen>
+    <dimen name="padding_large">12dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+    <dimen name="padding_middle">10dp</dimen>
+    <dimen name="padding_normal">5dp</dimen>
+    <dimen name="padding_small">6dp</dimen>
+    <dimen name="padding_smaller">4dp</dimen>
+    <dimen name="padding_smallest">2dp</dimen>
+    <dimen name="shadow_width">2dp</dimen>
+    <dimen name="sp_10">10.0000sp</dimen>
+    <dimen name="sp_12">12.0000sp</dimen>
+    <dimen name="sp_13">13.0000sp</dimen>
+    <dimen name="sp_14">14.0000sp</dimen>
+    <dimen name="sp_16">16.0000sp</dimen>
+    <dimen name="sp_17">17.0000sp</dimen>
+    <dimen name="sp_20">20.0000sp</dimen>
+    <dimen name="sp_24">24.0000sp</dimen>
+    <dimen name="stroke_small">1dp</dimen>
+    <dimen name="tab_textSize">16sp</dimen>
+    <dimen name="text_large">17sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_size_head_smallest">9sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_smaller">12sp</dimen>
+    <dimen name="text_small">10sp</dimen>
+    <dimen name="unread_count_size">12dp</dimen>
+    <integer name="agora_board_default_font_size">18</integer>
+    <integer name="agora_board_default_thickness">16</integer>
+    <string name="fcr_accuracynum" translatable="false">%d%%</string>
+    <string name="fcr_agora_message_item_error_text" translatable="false">!</string>
+    <string name="fcr_agora_message_item_role_tip" translatable="false">[%s]</string>
+    <string name="fcr_agora_video_reward" translatable="false">×%d</string>
+    <string name="fcr_agora_wb_page_count" translatable="false">%d / %d</string>
+    <string name="fcr_alert_cancel">Cancel</string>
+    <string name="fcr_alert_submit">Confirm</string>
+    <string name="fcr_alert_title">Tips</string>
+    <string name="fcr_chat_all">All</string>
+    <string name="fcr_chat_send_to">Send to:</string>
+    <string name="fcr_chat_window_select_image_action" translatable="false">.Select_Image</string>
+    <string name="fcr_chat_window_select_image_key" translatable="false">data</string>
+    <string name="fcr_cloud_file_name">File Name</string>
+    <string name="fcr_cloud_private_resource">Private folder</string>
+    <string name="fcr_cloud_public_resource">Public folder</string>
+    <string name="fcr_cloud_search">Search</string>
+    <string name="fcr_cloud_total_item">%s items</string>
+    <string name="fcr_countdown_timer_title">Countdown timer</string>
+    <string name="fcr_duration_digits" translatable="false">1234567890</string>
+    <string name="fcr_expansion_screen_button_Down">Down stage</string>
+    <string name="fcr_expansion_screen_button_On">On stage</string>
+    <string name="fcr_expansion_screen_button_confirm">confirm</string>
+    <string name="fcr_expansion_screen_button_expansion_screen">External display</string>
+    <string name="fcr_expansion_screen_button_settings">Settings</string>
+    <string name="fcr_expansion_screen_label_widow_layout">Window layout</string>
+    <string name="fcr_expansion_screen_option_2x2">2x2</string>
+    <string name="fcr_expansion_screen_option_3x3">3*3</string>
+    <string name="fcr_expansion_screen_option_3x4">3*4</string>
+    <string name="fcr_expansion_screen_option_4x4">4x4</string>
+    <string name="fcr_expansion_screen_option_5x5">5x5</string>
+    <string name="fcr_expansion_screen_option_6x6">6x6</string>
+    <string name="fcr_expansion_screen_option_7x7">7x7</string>
+    <string name="fcr_expansion_screen_tips_close_expansion_screen">Please close expansion display</string>
+    <string name="fcr_expansion_screen_tips_close_group">Please close breakout room</string>
+    <string name="fcr_exteral_video_tips">The teacher is viewing your video</string>
+    <string name="fcr_group_back_cancel">Cancel</string>
+    <string name="fcr_group_back_exit">Exit</string>
+    <string name="fcr_group_back_main_room">Returning to main session...</string>
+    <string name="fcr_group_back_sure">Confirm</string>
+    <string name="fcr_group_back_to_main_room">Return to main session</string>
+    <string name="fcr_group_button_join">Join</string>
+    <string name="fcr_group_button_later">Later</string>
+    <string name="fcr_group_close_group">The teacher has closed all rooms</string>
+    <string name="fcr_group_copy_content_to_group">Copy classroom content to breakout rooms</string>
+    <string name="fcr_group_enter_group">%s%s has joinedthe group</string>
+    <string name="fcr_group_enter_welcome">Welcome to %s</string>
+    <string name="fcr_group_exit_group">%s%s has left the group</string>
+    <string name="fcr_group_exit_room">Leave the room</string>
+    <string name="fcr_group_help_content">You can invite the teacher to this group for assistance.</string>
+    <string name="fcr_group_help_teacher_busy_msg">The teacher is currently helping others. Please try again later.</string>
+    <string name="fcr_group_help_title">Request help</string>
+    <string name="fcr_group_invitation">Teacher is inviting you to join %s</string>
+    <string name="fcr_group_invite">Invite</string>
+    <string name="fcr_group_invite_back_main_room">The teacher is inviting you to return to main room</string>
+    <string name="fcr_group_join">Join group</string>
+    <string name="fcr_group_join_error">Joining room fail</string>
+    <string name="fcr_group_joining">Joining%s</string>
+    <string name="fcr_group_sure">Confirm</string>
+    <string name="fcr_group_teacher_exist_hint">The teacher is already in this group.</string>
+    <string name="fcr_group_teacher_is_helping_others_msg">The teacher is helping other groups. Please try again later.</string>
+    <string name="fcr_group_tips_content_close_group">After closing all breakout rooms, all the students will be returned to the main room.</string>
+    <string name="fcr_group_tips_title_close_group">Do you want to close all breakout rooms?</string>
+    <string name="fcr_home_button_sign_up">Sign Up</string>
+    <string name="fcr_home_link_code_sample">Code sample</string>
+    <string name="fcr_home_link_past_classroom">Class history</string>
+    <string name="fcr_home_link_products">Products</string>
+    <string name="fcr_hyphenate_im_all_mute">All Muted</string>
+    <string name="fcr_hyphenate_im_announcement">Notice</string>
+    <string name="fcr_hyphenate_im_appKey_is_empty">AppKey is empty</string>
+    <string name="fcr_hyphenate_im_assistant">Assistant</string>
+    <string name="fcr_hyphenate_im_chat">Chat</string>
+    <string name="fcr_hyphenate_im_create_failed">Create failed</string>
+    <string name="fcr_hyphenate_im_download_picture">Download picture</string>
+    <string name="fcr_hyphenate_im_enter_contents">Please enter message</string>
+    <string name="fcr_hyphenate_im_fetch_token_failed">Fetch IM token failed</string>
+    <string name="fcr_hyphenate_im_global_mute_failed">Global mute failed</string>
+    <string name="fcr_hyphenate_im_global_remove_mute_failed">Global remove mute failed</string>
+    <string name="fcr_hyphenate_im_image_too_large">The image file is too large to load. Please choose another one.</string>
+    <string name="fcr_hyphenate_im_join_chat_room_failed">Join chatroom failed</string>
+    <string name="fcr_hyphenate_im_join_faild">Failed to join the classroom</string>
+    <string name="fcr_hyphenate_im_login_chat_failed">Login chat failed</string>
+    <string name="fcr_hyphenate_im_login_faild">Login failed</string>
+    <string name="fcr_hyphenate_im_login_on_other_device">The account was logged in on another device</string>
+    <string name="fcr_hyphenate_im_logout_forced">The account was logged out.</string>
+    <string name="fcr_hyphenate_im_message">Message</string>
+    <string name="fcr_hyphenate_im_message_incloud_illegal_content">Send faild,message contain sensitive word</string>
+    <string name="fcr_hyphenate_im_mute">You are muted by the teacher</string>
+    <string name="fcr_hyphenate_im_mute_title">Mute</string>
+    <string name="fcr_hyphenate_im_muted_by_teacher">You are muted by teacher %s</string>
+    <string name="fcr_hyphenate_im_nickname">Nickname</string>
+    <string name="fcr_hyphenate_im_no_announcement">no announcement</string>
+    <string name="fcr_hyphenate_im_no_announcement_teacher">There is no announcement for now. Go to publish it</string>
+    <string name="fcr_hyphenate_im_no_message">No Message</string>
+    <string name="fcr_hyphenate_im_notice_cancel">Cancel</string>
+    <string name="fcr_hyphenate_im_notice_send">Publish</string>
+    <string name="fcr_hyphenate_im_notice_up_to">Up to 500 characters</string>
+    <string name="fcr_hyphenate_im_photo_permission_disabled">Failed to gain access to the album</string>
+    <string name="fcr_hyphenate_im_private_chat">Private Chat</string>
+    <string name="fcr_hyphenate_im_recall">Recall</string>
+    <string name="fcr_hyphenate_im_recall_a_message">Recall a message</string>
+    <string name="fcr_hyphenate_im_release_announcement_failed">Release announcement failed</string>
+    <string name="fcr_hyphenate_im_remove_message_notify">%s removed a message</string>
+    <string name="fcr_hyphenate_im_say_something">Say something</string>
+    <string name="fcr_hyphenate_im_send">Send</string>
+    <string name="fcr_hyphenate_im_send_faild_by_mute">You have been muted by the teacher</string>
+    <string name="fcr_hyphenate_im_send_faild_by_sensitive">Failed to send the message, as it contains sensitive words.</string>
+    <string name="fcr_hyphenate_im_send_message_failed">Send message failed</string>
+    <string name="fcr_hyphenate_im_student">Student</string>
+    <string name="fcr_hyphenate_im_teacher">Teacher</string>
+    <string name="fcr_hyphenate_im_teacher_mute_all">The teacher muted all the students.</string>
+    <string name="fcr_hyphenate_im_teacher_remove_message">The teacher deleted a message</string>
+    <string name="fcr_hyphenate_im_teacher_unmute_all">The teacher unmuted all the students.</string>
+    <string name="fcr_hyphenate_im_unmuted_by_teacher">You are unmuted by teacher %s</string>
+    <string name="fcr_hyphenate_im_words_out_of_limit">Words out of limit</string>
+    <string name="fcr_hyphenate_im_you_have_been_muted_by_teacher">muted by %s teacher</string>
+    <string name="fcr_hyphenate_im_you_have_been_unmuted_by_teacher">unmuted by %s teacher</string>
+    <string name="fcr_inshare_button_share_friends">Share to Friends</string>
+    <string name="fcr_inshare_button_sharelink">Share Classroom</string>
+    <string name="fcr_inshare_label_invitation">Invitation:</string>
+    <string name="fcr_inshare_label_room_id">Room ID:</string>
+    <string name="fcr_inshare_label_share">Share</string>
+    <string name="fcr_join_copy_success">Copy Success</string>
+    <string name="fcr_lower_hand">Lower Hand</string>
+    <string name="fcr_media_camera">Camera</string>
+    <string name="fcr_media_camera_direction">Direction</string>
+    <string name="fcr_media_camera_direction_back">Back</string>
+    <string name="fcr_media_camera_direction_front">Front</string>
+    <string name="fcr_media_mic">Microphone</string>
+    <string name="fcr_media_speaker">Speaker</string>
+    <string name="fcr_monitor_login_remote_device">You are logged in on another device</string>
+    <string name="fcr_monitor_network_disconnected">You are disconnected from the internet. Please check your network connection.</string>
+    <string name="fcr_monitor_network_poor">Unstable network connection. Please check your local network connection.</string>
+    <string name="fcr_monitor_network_reconnecting">reconnecting...</string>
+    <string name="fcr_netless_board_granted">You can now annotate on the whiteboard.</string>
+    <string name="fcr_netless_board_ungranted">Your access to the whiteboard has been revoked by the teacher.</string>
+    <string name="fcr_online_courseware_button_close">Close</string>
+    <string name="fcr_online_courseware_button_upload">Upload</string>
+    <string name="fcr_online_courseware_button_upload_online_file">Upload courseware</string>
+    <string name="fcr_online_courseware_label_file_name">File name</string>
+    <string name="fcr_online_courseware_label_file_type">Share courseware</string>
+    <string name="fcr_online_courseware_label_link">Hyperlink</string>
+    <string name="fcr_online_courseware_label_online_courseware">Online courseware</string>
+    <string name="fcr_online_courseware_label_uploadpage">Uploadcourseware</string>
+    <string name="fcr_past_button_query">Query</string>
+    <string name="fcr_past_label_not_recorded">Not recorded</string>
+    <string name="fcr_past_label_past_classroom">Class history</string>
+    <string name="fcr_past_label_record">Record</string>
+    <string name="fcr_past_label_record_processing">Processing the recording</string>
+    <string name="fcr_past_label_room_ID">RoomID</string>
+    <string name="fcr_past_label_time">Time</string>
+    <string name="fcr_past_label_type">Type</string>
+    <string name="fcr_past_link_Replay">Replay</string>
+    <string name="fcr_past_link_attendance_tracking">Sample code</string>
+    <string name="fcr_past_link_engagement_tracking">Sample code</string>
+    <string name="fcr_past_table_attendance_tracking_title">Attendance tracking</string>
+    <string name="fcr_past_table_column_Polling">Polling</string>
+    <string name="fcr_past_table_column_correc">Correct answers</string>
+    <string name="fcr_past_table_column_incorrect">Incorrect answers</string>
+    <string name="fcr_past_table_column_joined_time">Joined time</string>
+    <string name="fcr_past_table_column_raise_hand">Raise hands</string>
+    <string name="fcr_past_table_column_student_name">Student name</string>
+    <string name="fcr_past_table_column_time_in_class">Time in class</string>
+    <string name="fcr_past_table_engagement_tracking_title">Engagement tracking</string>
+    <string name="fcr_past_tips_room_id">Please input room ID</string>
+    <string name="fcr_poll_input_option">Please input choices</string>
+    <string name="fcr_poll_input_placeholder">Please input the question</string>
+    <string name="fcr_poll_multi">Multi select</string>
+    <string name="fcr_poll_single">Single select</string>
+    <string name="fcr_poll_start">Start</string>
+    <string name="fcr_poll_submit">Submit</string>
+    <string name="fcr_poll_title">Poll</string>
+    <string name="fcr_poll_vote_title">Create polling</string>
+    <string name="fcr_popup_quiz">Popup quiz answerer</string>
+    <string name="fcr_popup_quiz_accuracy">Accuracy</string>
+    <string name="fcr_popup_quiz_answer_time">Time elapsed</string>
+    <string name="fcr_popup_quiz_change">Change My Answer</string>
+    <string name="fcr_popup_quiz_correct">The correct Answer</string>
+    <string name="fcr_popup_quiz_end_answer">End the quiz</string>
+    <string name="fcr_popup_quiz_my_answer">My Answer</string>
+    <string name="fcr_popup_quiz_post">Submit the answer</string>
+    <string name="fcr_popup_quiz_start_again">restart</string>
+    <string name="fcr_popup_quiz_start_answer">Start the quiz</string>
+    <string name="fcr_popup_quiz_student_answer">Answer</string>
+    <string name="fcr_popup_quiz_student_name">Name</string>
+    <string name="fcr_popup_quiz_submission">Submitted</string>
+    <string name="fcr_record_recording">Recording</string>
+    <string name="fcr_record_start">Do you want to start recording？</string>
+    <string name="fcr_record_stop">Do you want to stop recording？</string>
+    <string name="fcr_record_waiting">Preparing for recording. Please wait.</string>
+    <string name="fcr_respondentsnum" translatable="false">%d/%d</string>
+    <string name="fcr_reward_window_classtime0" translatable="false">%02d:%02d</string>
+    <string name="fcr_reward_window_classtime1" translatable="false">%02d:%02d:%02d</string>
+    <string name="fcr_role_assistant">assistant</string>
+    <string name="fcr_role_audience">audience</string>
+    <string name="fcr_role_student">student</string>
+    <string name="fcr_role_teacher">teacher</string>
+    <string name="fcr_room_class_end_warning">This session will end in %s minutes</string>
+    <string name="fcr_room_class_leave_cancel">Cancel</string>
+    <string name="fcr_room_class_leave_class_title">Do you want to end this session?</string>
+    <string name="fcr_room_class_leave_sure">Confirm</string>
+    <string name="fcr_room_class_not_start">Class has not started yet</string>
+    <string name="fcr_room_class_over">The class has ended.</string>
+    <string name="fcr_room_class_over_notice">Classroom notification</string>
+    <string name="fcr_room_class_started">Class has started:</string>
+    <string name="fcr_room_class_time_away">Class will start in：</string>
+    <string name="fcr_room_close_warning">The class will be over in %s minutes.</string>
+    <string name="fcr_room_exit_warning">Class is not end, Are you sure you want to quit the classroom?</string>
+    <string name="fcr_room_invite_link">Invite Link</string>
+    <string name="fcr_room_leave_room">Leave the classroom</string>
+    <string name="fcr_room_lecture_title">Lecture Hall</string>
+    <string name="fcr_room_loading">Loading...</string>
+    <string name="fcr_room_one_to_one_tab_chat">Chat</string>
+    <string name="fcr_room_one_to_one_tab_video">Video</string>
+    <string name="fcr_room_one_to_one_title">One-to-One Classroom</string>
+    <string name="fcr_room_room_link_student">Copy Link</string>
+    <string name="fcr_room_room_name">Room Name</string>
+    <string name="fcr_room_small_title">Interactive Small Classroom</string>
+    <string name="fcr_room_start_class">Start the class</string>
+    <string name="fcr_room_tips_end_poll">Teacher has ended the poll</string>
+    <string name="fcr_room_tips_lower_all_hand">All student\'s hands lowered</string>
+    <string name="fcr_room_tips_lower_hand">Teacher lowers your hand</string>
+    <string name="fcr_room_tips_reward_congratulation_multiplayer">Congratulations to %s students, including %s, for receiving awards.</string>
+    <string name="fcr_room_tips_reward_congratulation_single">Congratulations to %s for receiving the award.</string>
+    <string name="fcr_rtm_im_input_placeholder">Enter...</string>
+    <string name="fcr_rtm_im_message">Message</string>
+    <string name="fcr_rtm_im_mute_chat">mute</string>
+    <string name="fcr_rtm_im_mute_mode">Mute</string>
+    <string name="fcr_rtm_im_mute_tag_text">You have been muted in the chat.</string>
+    <string name="fcr_rtm_im_no_message">No Message</string>
+    <string name="fcr_rtm_im_quiz">Quiz</string>
+    <string name="fcr_rtm_im_role_assistant">Assistant</string>
+    <string name="fcr_rtm_im_send">Send</string>
+    <string name="fcr_rtm_im_silenced_placeholder">Muted</string>
+    <string name="fcr_rtm_im_student">Student</string>
+    <string name="fcr_rtm_im_teacher">Teacher</string>
+    <string name="fcr_rtm_im_title">Chat</string>
+    <string name="fcr_rtm_im_unmute_mode">Unmute</string>
+    <string name="fcr_savecanvas_button_save_canvas">Save the canvas</string>
+    <string name="fcr_savecanvas_button_save_to_cloud">Save to Cloud Storage</string>
+    <string name="fcr_savecanvas_button_save_to_local">Save to Local</string>
+    <string name="fcr_savecanvas_button_save_to_photo">Save to Photos</string>
+    <string name="fcr_savecanvas_tips_canvas_empty">Canvas is empty</string>
+    <string name="fcr_savecanvas_tips_save_failed">Save failed</string>
+    <string name="fcr_savecanvas_tips_save_failed_tips">Allow flexible classroom to access your Photos in "Setting"->"Privacy"->"Photos"</string>
+    <string name="fcr_savecanvas_tips_save_successfully">Save successfully</string>
+    <string name="fcr_savecanvas_tips_saveing">Exporting, please wait</string>
+    <string name="fcr_savecanvas_tips_scroll_view_canvas">Scroll to view the canvas</string>
+    <string name="fcr_savecanvas_title_file_name">File Name</string>
+    <string name="fcr_savecanvas_title_save_to">Save to</string>
+    <string name="fcr_savecanvas_title_save_to_photo">Save the canvas</string>
+    <string name="fcr_screenshot_button_screenshot">Screenshot</string>
+    <string name="fcr_screenshot_button_screenshot_hide_screenshot">Hide the screenshot</string>
+    <string name="fcr_screenshot_button_screenshot_screenshot">Screenshot</string>
+    <string name="fcr_screenshot_tips_finger">Drag one finger on the touch screen to capture a screenshot</string>
+    <string name="fcr_screenshot_tips_mouse">Drag the left click button on your mouse to screenshot an area</string>
+    <string name="fcr_settings_close_account">Delete Account</string>
+    <string name="fcr_settings_disclaimer">Product Disclaimer</string>
+    <string name="fcr_settings_label_about_us_about_us">About US</string>
+    <string name="fcr_settings_label_about_us_fcr_ver">Flexible Classroom Version:ver%s</string>
+    <string name="fcr_settings_label_about_us_sdk_ver">SDKVersion:ver%s</string>
+    <string name="fcr_settings_label_appearance">Appearance</string>
+    <string name="fcr_settings_label_language">Language</string>
+    <string name="fcr_settings_label_region">Region</string>
+    <string name="fcr_settings_link_about_us_privacy_policy">Privacy Policy</string>
+    <string name="fcr_settings_link_about_us_user_agreement">User Agreement</string>
+    <string name="fcr_settings_logoff_agreenment">I have read and confirmed to delete my account</string>
+    <string name="fcr_settings_logoff_alert">Are you sure to delete your account?</string>
+    <string name="fcr_settings_logoff_detail">Unfortunately，Flexible Classroom is not able to continue serving you.Thank you.\n
+Delete your account will result in ….\n
+1.Delete the room data associated with the account\n
+2.delete account and mobile</string>
+    <string name="fcr_settings_logoff_submit">Confirm</string>
+    <string name="fcr_settings_logout">Logout</string>
+    <string name="fcr_settings_logout_alert">Are you sure to logout?</string>
+    <string name="fcr_settings_nickname">Nick Name</string>
+    <string name="fcr_settings_option_about_us">About US</string>
+    <string name="fcr_settings_option_appearance_dark">Dark</string>
+    <string name="fcr_settings_option_appearance_light">Light</string>
+    <string name="fcr_settings_option_general">General</string>
+    <string name="fcr_settings_option_general_language_english">English</string>
+    <string name="fcr_settings_option_general_language_simplified">简体中文</string>
+    <string name="fcr_settings_option_general_language_traditional">繁体中文</string>
+    <string name="fcr_settings_option_region_ap">AP</string>
+    <string name="fcr_settings_option_region_cn">CN</string>
+    <string name="fcr_settings_option_region_eu">EU</string>
+    <string name="fcr_settings_option_region_na">NA</string>
+    <string name="fcr_settings_register">Sign up Agora.io</string>
+    <string name="fcr_settings_setting">Setting</string>
+    <string name="fcr_settings_theme">Theme</string>
+    <string name="fcr_settings_theme_dark">Dark</string>
+    <string name="fcr_settings_theme_light">Light</string>
+    <string name="fcr_share_Remote_control_disconnected">%s leftclassroom.Remote control disconnected</string>
+    <string name="fcr_share_allow">Allow%s tocontrol</string>
+    <string name="fcr_share_authorized_control">The teacher has authorized you to control the screen</string>
+    <string name="fcr_share_button_agree">Agree</string>
+    <string name="fcr_share_device_not_support">Student devices do not support remote control.</string>
+    <string name="fcr_share_forbidden_control">The teacher has forbidden your screen control</string>
+    <string name="fcr_share_no_student">Can\'t share student\'s screen as there\'s no student in the classroom</string>
+    <string name="fcr_share_not_allow">Forbid students to control</string>
+    <string name="fcr_share_reminded_student_agree">%s has not agreed to share his/her screen yet. The system has reminded %s to click on the "Agree" button to share his/her screen.</string>
+    <string name="fcr_share_selected">%sSelected</string>
+    <string name="fcr_share_sharing">Sharing %s\'s screen</string>
+    <string name="fcr_share_stopped_student_share">The teacher has stopped viewing your screen</string>
+    <string name="fcr_share_switch">Switch applications</string>
+    <string name="fcr_share_teacher_requesting_share">The teacher adds to have access to your screen content and remote control your device .Do you want to accept now?</string>
+    <string name="fcr_share_title_all_student">Student Screen Share</string>
+    <string name="fcr_share_title_any_student">You can assign a student to share the screen</string>
+    <string name="fcr_share_title_application">Application</string>
+    <string name="fcr_share_title_controling">Remote controlling</string>
+    <string name="fcr_share_title_desktop">Desktop</string>
+    <string name="fcr_share_title_full_screen">Support full screen sharing</string>
+    <string name="fcr_share_title_select_window_share">Select a window to share</string>
+    <string name="fcr_share_title_share_window">Share this window</string>
+    <string name="fcr_share_title_singel_window">Support sharing a single application</string>
+    <string name="fcr_share_title_sound">Audio is not supported</string>
+    <string name="fcr_share_title_teacher">Teacher Screen Share</string>
+    <string name="fcr_share_title_warning_tips">If you have trouble accessing the remote control features, please turn off your anti-virus software</string>
+    <string name="fcr_stage_button_reset">Reset camera</string>
+    <string name="fcr_stage_reached_limitation">The number of video call windows has reached the upper limit of %s</string>
+    <string name="fcr_stage_title">Podium</string>
+    <string name="fcr_stage_title_hide">Hide</string>
+    <string name="fcr_stage_title_show">Show</string>
+    <string name="fcr_start_time" translatable="false">00:00:00</string>
+    <string name="fcr_stream_start_audio">You are unmuted.</string>
+    <string name="fcr_stream_start_video">The teacher has turned on your camera.</string>
+    <string name="fcr_stream_stop_audio">You are muted.</string>
+    <string name="fcr_stream_stop_video">The teacher has turned off your camera.</string>
+    <string name="fcr_subtitle_label_subtitle">subtitle</string>
+    <string name="fcr_subtitle_label_subtitle_off">Off</string>
+    <string name="fcr_subtitle_label_subtitle_on">On</string>
+    <string name="fcr_subtitle_tips_listen">Listening</string>
+    <string name="fcr_switch_tips_banned_video">You are banned video</string>
+    <string name="fcr_switch_tips_banned_video_content">You can raise hand to request the teacher to start video.</string>
+    <string name="fcr_switch_tips_button_agree">Agree</string>
+    <string name="fcr_switch_tips_button_refuse">Refuse</string>
+    <string name="fcr_switch_tips_muted">You are muted</string>
+    <string name="fcr_switch_tips_muted_content">You can raise hand to request the teacher to unmute.</string>
+    <string name="fcr_switch_tips_teacher_start_video_content">Teacher requests to start video</string>
+    <string name="fcr_switch_tips_teacher_start_video_title">Request to start video</string>
+    <string name="fcr_switch_tips_teacher_unmute_content">Teacher requests to unmute</string>
+    <string name="fcr_switch_tips_teacher_unmute_title">Request to unmute</string>
+    <string name="fcr_toast_classtime_default" translatable="false">--:--</string>
+    <string name="fcr_toast_classtime_until_class_close_0_arg" translatable="false">%s minutes</string>
+    <string name="fcr_toast_classtime_until_class_close_0_args" translatable="false">%sm%ss</string>
+    <string name="fcr_tool_box_cloud_storage">Cloud storage</string>
+    <string name="fcr_tool_box_count_down">Countdown</string>
+    <string name="fcr_tool_box_poll">Poll</string>
+    <string name="fcr_tool_box_popup_quiz">Pop-up Quiz</string>
+    <string name="fcr_tool_box_record_class">Record</string>
+    <string name="fcr_tool_box_start">Start</string>
+    <string name="fcr_tool_box_unit_second">(second)</string>
+    <string name="fcr_total_count" translatable="false">/500</string>
+    <string name="fcr_user_dialog_class_destroy_title">Tips</string>
+    <string name="fcr_user_hands">Raise your hand by holding this button.</string>
+    <string name="fcr_user_kick_out">Remove students</string>
+    <string name="fcr_user_kick_out_cancel">Cancel</string>
+    <string name="fcr_user_kick_out_forever">Ban the student from re-entering the classroom</string>
+    <string name="fcr_user_kick_out_once">Remove the student from the classroom</string>
+    <string name="fcr_user_kick_out_submit">Confirm</string>
+    <string name="fcr_user_list">Roster</string>
+    <string name="fcr_user_list_audio">Microphone</string>
+    <string name="fcr_user_list_auth">Auth</string>
+    <string name="fcr_user_list_ban">Remove</string>
+    <string name="fcr_user_list_carousel_setting">Video Carousel</string>
+    <string name="fcr_user_list_reward">Reward</string>
+    <string name="fcr_user_list_stage">Stage</string>
+    <string name="fcr_user_list_student_name">Student</string>
+    <string name="fcr_user_list_teacher_name">Teacher:</string>
+    <string name="fcr_user_list_video">Camera</string>
+    <string name="fcr_user_loading">loading</string>
+    <string name="fcr_user_local_kick_out">You have been removed from the classroom.</string>
+    <string name="fcr_user_local_kick_out_notice">Removal notification</string>
+    <string name="fcr_user_local_start_co_hosting">You are on stage now,You are in presentation mode now. Please feel free to interact with others.</string>
+    <string name="fcr_user_local_stop_co_hosting">You are off the stage now.</string>
+    <string name="fcr_user_student_left">The student has left the classroom</string>
+    <string name="fcr_user_tutor_left">The teacher has left the classroom</string>
+    <string name="fcr_user_waiting_student">Waiting for students to enter the classroom</string>
+    <string name="fcr_user_waiting_tutor">Waiting for the teacher to enter the classroom</string>
+    <string name="fcr_vocational_teacher_absent">The teacher is not in the classroom</string>
+    <string name="fcr_vocational_video_start_early_alert">Are you sure to start lessons in advance and play videos</string>
+    <string name="fcr_votechoiceid" translatable="false">%d. </string>
+    <string name="fcr_votetitle" translatable="false">%d. %s</string>
+    <style name="AgoraAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        
+        <item name="colorPrimary">@color/fcr_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/fcr_colorPrimaryDark</item>
+        <item name="colorAccent">@color/fcr_colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowLightStatusBar" ns1:targetApi="m">true</item>
+    </style>
+    <style name="AgoraAppThemeFullScreen" parent="AgoraAppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <style name="Dialog.Light" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/fcr_icon_fill_color</item>
+    </style>
+    <style name="FCRAgoraLoading" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="RightInAndOutStyle">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_in_out_right</item>
+    </style>
+    <style name="agora_dialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="agora_full_screen_dialog" parent="agora_dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">#33000000</item>
+    </style>
+    <style name="animate_dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_in_out_bottom</item>
+    </style>
+    <style name="blue_bg_white_style">
+        <item name="android:background">@drawable/fcr_blue_round_bg</item>
+        <item name="android:textColor">@color/fcr_text_contrast_color</item>
+    </style>
+    <style name="dialog_recall" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="im_white_bg">
+        <item name="android:background">@color/fcr_system_background_color</item>
+    </style>
+    <style name="lecturer_role_bg_style">
+        <item name="android:background">@drawable/fcr_lecturer_role_bg</item>
+        <item name="android:textColor">@color/fcr_icon_fill_color</item>
+    </style>
+    <style name="mute_bg_style">
+        <item name="android:background">@drawable/fcr_blue_round_bg</item>
+        <item name="android:textColor">@color/fcr_text_contrast_color</item>
+    </style>
+    <style name="normal_role_bg_style">
+        <item name="android:background">@drawable/fcr_normal_role_bg</item>
+        <item name="android:textColor">@color/fcr_text_level1_color</item>
+    </style>
+    <style name="white_bg">
+        <item name="android:background">@color/fcr_system_component_color</item>
+    </style>
+    <style name="white_bg_gray_style">
+        <item name="android:background">@drawable/fcr_announcement_white_round_bg</item>
+        <item name="android:textColor">@color/fcr_text_contrast_color</item>
+    </style>
+    <declare-styleable name="AgoraEduVideoGroupComponent">
+        <attr format="enum" name="videoMode">
+            <enum name="Single" value="0"/>
+            <enum name="Pair" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AlignedTextView">
+        <attr format="integer" name="alignment"/>
+    </declare-styleable>
+    <declare-styleable name="CountDownClock">
+        <attr format="string" name="resetSymbol"/>
+        
+        <attr format="color" name="digitDividerColor"/> 
+        <attr format="integer" name="digitTopDrawable"/>
+        <attr format="integer" name="digitBottomDrawable"/>
+        <attr format="color" name="digitSplitterColor"/> 
+        <attr format="color" name="digitTextColor"/>
+        <attr format="dimension" name="halfDigitHeight"/>
+        <attr format="dimension" name="digitWidth"/>
+        <attr format="dimension" name="digitTextSize"/>
+        <attr format="dimension" name="digitPadding"/>
+        <attr format="dimension" name="splitterPadding"/>
+
+        <attr format="integer" name="animationDuration"/>
+
+        <attr format="integer" name="almostFinishedCallbackTimeInSeconds"/>
+        <attr format="integer" name="countdownTickInterval"/>
+    </declare-styleable>
+    <declare-styleable name="MarqueeTextView">
+        <attr format="integer" name="scroll_interval"/>
+        <attr format="integer" name="scroll_first_delay"/>
+        <attr name="scroll_mode">
+            <enum name="mode_forever" value="100"/>
+            <enum name="mode_once" value="101"/>
+        </attr>
+    </declare-styleable>
+</resources>
