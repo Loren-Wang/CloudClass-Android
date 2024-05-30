@@ -59,10 +59,14 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.dependencies.constraintlayout}"
     implementation "com.github.netless-io:whiteboard-android:${rootProject.ext.dependencies.white_sdk_android}"
     implementation "androidx.recyclerview:recyclerview:${rootProject.ext.dependencies.recyclerview}"
-    api 'com.github.yyued:SVGAPlayer-Android:2.1.1'
+    api 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+    implementation "com.google.code.gson:gson:${rootProject.ext.dependencies.gson}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.dependencies.retrofit}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.dependencies.okhttp}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.dependencies.converter_gson}"
 
     if (readyPublishGithub.toBoolean()) {
-        compileOnly "io.github.agoraio-community:AgoraEduCore:${rootProject.ext.dependencies.EduCore}"
+        api "io.github.agoraio-community:AgoraEduCore:${rootProject.ext.dependencies.EduCore}"
     } else {
         compileOnly project(path: ':AgoraEduCore')
     }

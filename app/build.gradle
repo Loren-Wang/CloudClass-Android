@@ -82,4 +82,12 @@ dependencies {
 
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
+
+    implementation "androidx.core:core-ktx:${rootProject.ext.dependencies.core_ktx}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.preference:preference:1.1.1"
+    implementation "com.google.code.gson:gson:${rootProject.ext.dependencies.gson}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.dependencies.retrofit}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.dependencies.okhttp}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.dependencies.converter_gson}"
 }

@@ -53,7 +53,7 @@ dependencies {
         compileOnly project(path: ':AgoraEduCore')
     }
     compileOnly project(path: ':hyphenate')//各个模块单独编译，需要此依赖
-
+    implementation "com.google.code.gson:gson:${rootProject.ext.dependencies.gson}"
 }
 
 //
