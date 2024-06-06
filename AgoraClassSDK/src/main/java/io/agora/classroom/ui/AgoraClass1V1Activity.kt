@@ -194,7 +194,7 @@ class AgoraClass1V1Activity : AgoraEduClassActivity() {
             //课堂开始时间
             val startTime = eduCore()?.eduContextPool()?.roomContext()?.getClassInfo()?.startTime
             //剩余超时时间
-            val reduceTimeOut = 30000L - (System.currentTimeMillis() - (startTime ?: 0L));//600000L - (System.currentTimeMillis() - (startTime ?: 0L))
+            val reduceTimeOut = 600000L - (System.currentTimeMillis() - (startTime ?: 0L))
             if (!whetherJoin && reduceTimeOut > 0) {
                 countDownTimer = object : CountDownTimer(reduceTimeOut + 1000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
