@@ -75,7 +75,7 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         keys: MutableList<String>, operator: EduBaseUserInfo?
     ) {
         super.onWidgetRoomPropertiesUpdated(properties, cause, keys, operator)
-        countDownContent?.parseProperties(properties)
+        countDownContent?.parseProperties(properties,keys)
     }
 
     override fun onWidgetRoomPropertiesDeleted(
@@ -83,7 +83,7 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         keys: MutableList<String>
     ) {
         super.onWidgetRoomPropertiesDeleted(properties, cause, keys)
-        countDownContent?.parseProperties(properties)
+        countDownContent?.parseProperties(properties, keys)
     }
 
     override fun release() {
@@ -101,11 +101,10 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         )
         private var mCountdownStarted = false
         private var mCountdownInitialState = false
-        private var zIndexChangeCount = 0
 
         init {
             widgetInfo?.roomProperties?.let {
-                parseProperties(it)
+                parseProperties(it, widgetInfo?.roomProperties?.keys?.toMutableList() ?: mutableListOf())
             }
             readyUI()
         }
@@ -118,10 +117,8 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         }
 
         @Synchronized
-        fun parseProperties(properties: Map<String, Any>) {
-            //todo 当前方案为临时处理，后续SDK中回调调整完成之后要移除该if条件的判断，仅保留代码块
-            /*当前定时器回调逻辑，web端操作定时器后会调用两次接口，同样SDK监听也是接收了两次，但是SDK中回调该函数的时候返回了全量数据（包含未更新的上一次定时数据），所以此时采用了仅使用最后一次回调的全量数据*/
-            if(zIndexChangeCount % 2 == 0){
+        fun parseProperties(properties: Map<String, Any>, keys: MutableList<String>) {
+            if(keys.contains(PROPERTIES_KEY_STATE)){
                 // Countdown state means whether the count down is started, stopped or paused
                 val state = NumberParser.parseStringIntOrZero(properties[PROPERTIES_KEY_STATE])
                 val started = state == Started.value
@@ -158,7 +155,6 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
                 mCountdownStarted = started
                 mCountdownInitialState = initialState
             }
-            zIndexChangeCount++
         }
 
         private fun startCountDownInSeconds(seconds: Long, remainder: Long) {
