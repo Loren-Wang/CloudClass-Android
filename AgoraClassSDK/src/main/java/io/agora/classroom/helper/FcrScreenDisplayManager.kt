@@ -1,9 +1,10 @@
 package io.agora.classroom.helper
 
+import android.app.Activity
+import android.content.Context
 import android.content.Context.DISPLAY_SERVICE
 import android.hardware.display.DisplayManager
 import android.hardware.display.DisplayManager.DisplayListener
-import android.util.Log
 import android.view.Display
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.agora.edu.component.AgoraEduVideoComponent
 import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
 import io.agora.agoraeducore.core.context.EduContextPool
-import io.agora.classroom.ui.AgoraClassSmallActivity
+import io.agora.agoraeducore.core.internal.log.LogX
 import io.agora.classroom.ui.AgoraClassTeacherVideoPresentation
 
 
@@ -41,7 +42,7 @@ import io.agora.classroom.ui.AgoraClassTeacherVideoPresentation
  * @author 王亮（Loren）
  * @param pageContext 当前页面实例
  */
-class ScreenDisplayManager(private val pageContext: AgoraClassSmallActivity) {
+class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
     companion object {
         /**
          * 是否允许开双屏的key
@@ -59,24 +60,24 @@ class ScreenDisplayManager(private val pageContext: AgoraClassSmallActivity) {
     /**
      * 屏幕管理器
      */
-    private val displayManager: DisplayManager = pageContext.applicationContext.getSystemService(DISPLAY_SERVICE) as DisplayManager
+    private val displayManager: DisplayManager = options.getApplicationContext().getSystemService(DISPLAY_SERVICE) as DisplayManager
 
     /**
      * 屏幕改变监听器
      */
     private val displayListener: DisplayListener = object : DisplayListener {
         override fun onDisplayAdded(displayId: Int) {
-            Log.d(TAG, "Display added: $displayId")
-            pageContext.updateMoreScreenShow()
+            LogX.d(TAG, "Display added: $displayId")
+            options.updateMoreScreenShow()
         }
 
         override fun onDisplayRemoved(displayId: Int) {
-            Log.d(TAG, "Display removed: $displayId")
-            pageContext.updateMoreScreenShow()
+            LogX.d(TAG, "Display removed: $displayId")
+            options.updateMoreScreenShow()
         }
 
         override fun onDisplayChanged(displayId: Int) {
-            Log.d(TAG, "Display changed: $displayId")
+            LogX.d(TAG, "Display changed: $displayId")
         }
     }
 
@@ -120,7 +121,7 @@ class ScreenDisplayManager(private val pageContext: AgoraClassSmallActivity) {
         if (displayList.size > 1 && showSecondDisplay && (currentTeacherVideoPresentation == null || !currentTeacherVideoPresentation!!.isShowing)) {
             //初始化
             currentTeacherVideoPresentation?.dismiss()
-            currentTeacherVideoPresentation = AgoraClassTeacherVideoPresentation(this.pageContext, displayList[1])
+            currentTeacherVideoPresentation = AgoraClassTeacherVideoPresentation(this.options.getActivityContext(), displayList[1])
             //显示副屏
             this.currentTeacherVideoPresentation!!.show()
             //从小屏列表中移除教师视图
@@ -189,7 +190,7 @@ class ScreenDisplayManager(private val pageContext: AgoraClassSmallActivity) {
     ) {
         showSecondDisplay = showMore
         if (AgoraEduContextUserRole.Student == eduContext?.userContext()?.getLocalUserInfo()?.role) {
-            this.pageContext.runOnUiThread {
+            this.options.runOnUiThread {
                 try {
                     if (showMore) {
                         setShowMoreScreenDisplay(areaViewGroup, teacherVideoView, eduContext)
@@ -197,7 +198,7 @@ class ScreenDisplayManager(private val pageContext: AgoraClassSmallActivity) {
                         setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, eduContext)
                     }
                 } catch (ignore: Exception) {
-                    Log.e(TAG, "Reset ShowMore Display fail")
+                    LogX.e(TAG, "Reset ShowMore Display fail")
                 }
             }
         }
