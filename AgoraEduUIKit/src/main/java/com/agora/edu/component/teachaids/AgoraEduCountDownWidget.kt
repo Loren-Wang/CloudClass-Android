@@ -75,7 +75,7 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         keys: MutableList<String>, operator: EduBaseUserInfo?
     ) {
         super.onWidgetRoomPropertiesUpdated(properties, cause, keys, operator)
-        countDownContent?.parseProperties(properties)
+        countDownContent?.parseProperties(properties,keys)
     }
 
     override fun onWidgetRoomPropertiesDeleted(
@@ -83,7 +83,7 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         keys: MutableList<String>
     ) {
         super.onWidgetRoomPropertiesDeleted(properties, cause, keys)
-        countDownContent?.parseProperties(properties)
+        countDownContent?.parseProperties(properties, keys)
     }
 
     override fun release() {
@@ -104,7 +104,7 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
 
         init {
             widgetInfo?.roomProperties?.let {
-                parseProperties(it)
+                parseProperties(it, widgetInfo?.roomProperties?.keys?.toMutableList() ?: mutableListOf())
             }
             readyUI()
         }
@@ -117,42 +117,44 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
         }
 
         @Synchronized
-        fun parseProperties(properties: Map<String, Any>) {
-            // Countdown state means whether the count down is started, stopped or paused
-            val state = NumberParser.parseStringIntOrZero(properties[PROPERTIES_KEY_STATE])
-            val started = state == Started.value
-            val initialState = state == Init.value
-            val startTimeMillis = NumberParser.parseStringLongOrZero(properties[PROPERTIES_KEY_START_TIME])
-            // What does pauseTime do? There are no other platforms, but this logic is not understood,
-            // so it will not be deleted for the time being.
-            val pauseTime = NumberParser.parseStringLongOrZero(properties[PROPERTIES_KEY_PAUSE_TIME])
-            val duration = NumberParser.parseStringIntOrZero(properties[PROPERTIES_KEY_DURATION])
-            LogX.i(
-                tag, "Countdown properties updated, started:" + started
-                    + ", initialState:" + initialState + ", start time:" + startTimeMillis + ", duration:" + duration
-            )
-            if (!initialState) {
-                if (started) {
-                    val currentTime = TimeUtil.currentTimeMillis()
-                    val leftMillis = (startTimeMillis + duration * 1000L - currentTime)
-                    val leftSeconds = leftMillis / 1000L + 1
-                    val remainder = leftMillis % 1000L
-                    if (leftSeconds > 0) {
-                        startCountDownInSeconds(leftSeconds, remainder)
+        fun parseProperties(properties: Map<String, Any>, keys: MutableList<String>) {
+            if(keys.contains(PROPERTIES_KEY_STATE)){
+                // Countdown state means whether the count down is started, stopped or paused
+                val state = NumberParser.parseStringIntOrZero(properties[PROPERTIES_KEY_STATE])
+                val started = state == Started.value
+                val initialState = state == Init.value
+                val startTimeMillis = NumberParser.parseStringLongOrZero(properties[PROPERTIES_KEY_START_TIME])
+                // What does pauseTime do? There are no other platforms, but this logic is not understood,
+                // so it will not be deleted for the time being.
+                val pauseTime = NumberParser.parseStringLongOrZero(properties[PROPERTIES_KEY_PAUSE_TIME])
+                val duration = NumberParser.parseStringIntOrZero(properties[PROPERTIES_KEY_DURATION])
+                LogX.i(
+                    tag, "Countdown properties updated, started:" + started
+                            + ", initialState:" + initialState + ", start time:" + startTimeMillis + ", duration:" + duration
+                )
+                if (!initialState) {
+                    if (started) {
+                        val currentTime = TimeUtil.currentTimeMillis()
+                        val leftMillis = (startTimeMillis + duration * 1000L - currentTime)
+                        val leftSeconds = leftMillis / 1000L + 1
+                        val remainder = leftMillis % 1000L
+                        if (leftSeconds > 0) {
+                            startCountDownInSeconds(leftSeconds, remainder)
+                        }
+                    }
+                } else if (!mCountdownInitialState) {
+                    if (mCountdownStarted) {
+                        // countDown state become initial from running.
+                        LogX.i(tag, "Countdown is reset, stop local countdown ticking and set initial state")
+                        resetCountdownTicking()
+                    } else {
+                        LogX.i(tag, "Countdown has been reset, resetCountdownTicking")
+                        resetCountdownTicking()
                     }
                 }
-            } else if (!mCountdownInitialState) {
-                if (mCountdownStarted) {
-                    // countDown state become initial from running.
-                    LogX.i(tag, "Countdown is reset, stop local countdown ticking and set initial state")
-                    resetCountdownTicking()
-                } else {
-                    LogX.i(tag, "Countdown has been reset, resetCountdownTicking")
-                    resetCountdownTicking()
-                }
+                mCountdownStarted = started
+                mCountdownInitialState = initialState
             }
-            mCountdownStarted = started
-            mCountdownInitialState = initialState
         }
 
         private fun startCountDownInSeconds(seconds: Long, remainder: Long) {
@@ -194,7 +196,9 @@ class AgoraTeachAidCountDownWidget : AgoraTeachAidMovableWidget() {
 
         private fun resetCountdownTicking() {
             if (binding.countdownClock.isAttachedToWindow) {
-                binding.countdownClock.post { binding.countdownClock.setInitState() }
+                binding.countdownClock.post {
+                    binding.countdownClock.setInitState()
+                }
             } else {
                 LogX.i(tag, "[2]view has not attached to window, UI operations fail")
             }
@@ -860,6 +864,7 @@ internal object CountdownStatics {
     const val PROPERTIES_KEY_DURATION = "duration"
     const val PROPERTIES_KEY_PAUSE_TIME = "pauseTime"
     const val PROPERTIES_KEY_STATE = "state"
+    const val PROPERTIES_KEY_INDEX = "zIndex"
     const val MAX_DURATION = 3600
     const val DEFAULT_DURATION = 60
 }

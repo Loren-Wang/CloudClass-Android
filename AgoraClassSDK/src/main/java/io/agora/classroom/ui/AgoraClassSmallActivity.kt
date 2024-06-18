@@ -1,5 +1,6 @@
 package io.agora.classroom.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,8 @@ import io.agora.agoraeduuikit.component.toast.AgoraUIToast
 import io.agora.agoraeduuikit.impl.whiteboard.bean.AgoraBoardInteractionPacket
 import io.agora.agoraeduuikit.impl.whiteboard.bean.AgoraBoardInteractionSignal
 import io.agora.classroom.common.AgoraEduClassActivity
+import io.agora.classroom.helper.FcrScreenDisplayManager
+import io.agora.classroom.helper.FcrScreenDisplayOptions
 import io.agora.classroom.presenter.AgoraClassVideoPresenter
 
 /**
@@ -23,10 +26,11 @@ import io.agora.classroom.presenter.AgoraClassVideoPresenter
  * date : 2022/1/24
  * description : 小班课（200）
  */
-open class AgoraClassSmallActivity : AgoraEduClassActivity() {
+open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOptions {
     override var TAG = "AgoraClassSmallActivity"
     var agoraClassVideoPresenter: AgoraClassVideoPresenter? = null
     private lateinit var binding: ActivityAgoraClassSmallBinding
+    private lateinit var screenDisplayManager: FcrScreenDisplayManager
 
     protected val roomHandler = object : RoomHandler() {
         override fun onJoinRoomSuccess(roomInfo: EduContextRoomInfo) {
@@ -35,6 +39,9 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
             openSystemDevices()
             handleStageStatus(RoomPropertiesHelper.isOpenStage(eduCore()))
             handleWaterMark()
+
+            //房间信息获取完成，判断是否需要更新双屏视图
+            updateMoreScreenShow()
         }
 
         override fun onJoinRoomFailure(roomInfo: EduContextRoomInfo, error: EduContextError) {
@@ -45,11 +52,13 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
         override fun onRoomPropertiesUpdated(
             properties: Map<String, Any>, cause: Map<String, Any>?,
-            operator: AgoraEduContextUserInfo?
+            operator: AgoraEduContextUserInfo?,
         ) {
             super.onRoomPropertiesUpdated(properties, cause, operator)
             // 解析并判断讲台是否关闭
             handleStageStatus(RoomPropertiesHelper.isOpenStage(eduCore()))
+            //接收到房间属性更新，从中取出数据更新视图
+            updateMoreScreenShow(properties[FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?)
         }
 
         override fun onClassStateUpdated(state: AgoraEduContextClassState) {
@@ -63,6 +72,15 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
         binding = ActivityAgoraClassSmallBinding.inflate(layoutInflater)
         setContentView(binding.root)
         createJoinRoom()
+
+        //初始化屏幕管理
+        screenDisplayManager = FcrScreenDisplayManager(this)
+//        // 测试代码，用来测试教师端控制双屏功能
+//        binding.agoraAreaVideo.setOnClickListener {
+//            screenDisplayManager.changeMoreScreenDisplay(eduCore()?.eduContextPool(),
+//                !(eduCore()!!.eduContextPool().roomContext()!!.getRoomProperties()!![ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?
+//                    ?: true))
+//        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -130,7 +148,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
                         binding.agoraAreaVideo, binding.agoraClassTeacherVideo,
                         binding.agoraClassUserListVideo, context
                     )
-                    agoraClassVideoPresenter?.initView(getRoomType(), this, uiController)
+                    agoraClassVideoPresenter?.initView(getRoomType(), null,this, uiController)
                 }
 
                 // white area
@@ -173,6 +191,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
     override fun onRelease() {
         super.onRelease()
+        screenDisplayManager.releaseTeacherVideoPresentation()
         agoraClassVideoPresenter?.release()
         binding.agoraEduOptions.release()
         binding.agoraEduWhiteboard.release()
@@ -210,4 +229,24 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
         LogX.i(TAG, "watermark = $watermark")
     }
+
+    /**
+     * 更新多屏显示
+     * @param showMore 是否显示副屏
+     */
+   override fun updateMoreScreenShow(showMore: Boolean?) {
+        val allowShowMore: Boolean = showMore?: (eduCore()?.eduContextPool()?.roomContext()?.getRoomProperties()?.get(FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY) as Boolean?) ?: true
+        agoraClassVideoPresenter?.videoSubscribeLevel = if (allowShowMore) AgoraEduContextVideoSubscribeLevel.HIGH else AgoraEduContextVideoSubscribeLevel.LOW
+        screenDisplayManager.resetShowMoreDisplay(allowShowMore, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,
+            eduCore()?.eduContextPool())
+    }
+
+    override fun getApplicationContext(): Context {
+        return context.applicationContext
+    }
+
+    override fun getActivityContext(): Context {
+        return context
+    }
+
 }
