@@ -209,9 +209,7 @@ class AgoraClass1V1Activity : AgoraEduClassActivity() {
                             runOnUiThread {
                                 AgoraUIHintDialogBuilder(this@AgoraClass1V1Activity).title(resources.getString(R.string.fcr_dialog_hint_title))
                                     .content(resources.getString(R.string.fcr_dialog_hint_content))
-                                    .buttonText(resources.getString(R.string.fcr_dialog_hint_btn)).buttonClickListener {
-                                        onBackPressed()
-                                    }.build().show()
+                                    .buttonText(resources.getString(R.string.fcr_dialog_hint_btn)).build().show()
                             }
                         }
                     }
