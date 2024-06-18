@@ -75,12 +75,12 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity() {
 
         //初始化屏幕管理
         screenDisplayManager = ScreenDisplayManager(this)
-        //todo 测试代码，用来测试教师端控制双屏功能
-        binding.agoraAreaVideo.setOnClickListener {
-            screenDisplayManager.changeMoreScreenDisplay(eduCore()?.eduContextPool(),
-                !(eduCore()!!.eduContextPool().roomContext()!!.getRoomProperties()!![ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?
-                    ?: true))
-        }
+//        // 测试代码，用来测试教师端控制双屏功能
+//        binding.agoraAreaVideo.setOnClickListener {
+//            screenDisplayManager.changeMoreScreenDisplay(eduCore()?.eduContextPool(),
+//                !(eduCore()!!.eduContextPool().roomContext()!!.getRoomProperties()!![ScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?
+//                    ?: true))
+//        }
     }
 
     override fun onNewIntent(intent: Intent?) {
