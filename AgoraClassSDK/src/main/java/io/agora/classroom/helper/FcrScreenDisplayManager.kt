@@ -116,6 +116,17 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param eduContext 总的配置信息
      */
     private fun setShowMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, eduContext: EduContextPool?) {
+        options.runOnUiThread {
+            this@FcrScreenDisplayManager.currentTeacherVideoPresentation!!.binding.nameText.text =
+                eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
+                    return@let if (it.isNotEmpty()) {
+                        it[0].userName
+                    } else {
+                        ""
+                    }
+                }
+        }
+
         //判断新建
         val displayList = getDisplayList()
         if (displayList.size > 1 && showSecondDisplay && (currentTeacherVideoPresentation == null || !currentTeacherVideoPresentation!!.isShowing)) {
