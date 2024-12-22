@@ -256,7 +256,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
    override fun updateMoreScreenShow(showMore: Boolean?) {
         val allowShowMore: Boolean = showMore?: (eduCore()?.eduContextPool()?.roomContext()?.getRoomProperties()?.get(FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY) as Boolean?) ?: true
         agoraClassVideoPresenter?.videoSubscribeLevel = if (allowShowMore) AgoraEduContextVideoSubscribeLevel.HIGH else AgoraEduContextVideoSubscribeLevel.LOW
-        screenDisplayManager.resetShowMoreDisplay(allowShowMore, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,
+        screenDisplayManager.resetShowMoreDisplay(allowShowMore, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,binding.agoraClassUserListVideo,
             eduCore()?.eduContextPool())
     }
 //

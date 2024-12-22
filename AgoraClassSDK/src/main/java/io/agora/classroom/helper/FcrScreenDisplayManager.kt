@@ -1,7 +1,5 @@
 package io.agora.classroom.helper
 
-import android.app.Activity
-import android.content.Context
 import android.content.Context.DISPLAY_SERVICE
 import android.hardware.display.DisplayManager
 import android.hardware.display.DisplayManager.DisplayListener
@@ -10,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.agora.edu.component.AgoraEduListVideoComponent
 import com.agora.edu.component.AgoraEduVideoComponent
 import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
@@ -115,7 +114,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param teacherVideoView 教师端视频流组件
      * @param eduContext 总的配置信息
      */
-    private fun setShowMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, eduContext: EduContextPool?) {
+    private fun setShowMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, classUserVideoView: AgoraEduListVideoComponent, eduContext: EduContextPool?) {
         //判断新建
         val displayList = getDisplayList()
         if (displayList.size > 1 && showSecondDisplay && (currentTeacherVideoPresentation == null || !currentTeacherVideoPresentation!!.isShowing)) {
@@ -125,11 +124,13 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             //显示副屏
             this.currentTeacherVideoPresentation!!.show()
             //从小屏列表中移除教师视图
-            smallShowLayoutParams = teacherVideoView.layoutParams
+            smallShowLayoutParams = classUserVideoView.layoutParams
+            areaViewGroup.removeView(classUserVideoView)
             areaViewGroup.removeView(teacherVideoView)
             areaViewGroup.visibility = View.GONE
+            classUserVideoView.addTeacherScreenDisplayShow(teacherVideoView)
             //将view移动到副屏
-            this.currentTeacherVideoPresentation!!.binding.root.addView(teacherVideoView, moreShowLayoutParams)
+            this.currentTeacherVideoPresentation!!.binding.root.addView(classUserVideoView, moreShowLayoutParams)
             //设置高分辨率
             eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
                 if (it.isNotEmpty()) {
@@ -142,7 +143,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
                 }
             }
         } else {
-            setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, eduContext)
+            setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, classUserVideoView, eduContext)
         }
         //设置显示的用户信息
         this.setShowUserInfo(eduContext)
@@ -154,12 +155,14 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param teacherVideoView 教师端视频流组件
      * @param eduContext 总的配置信息
      */
-    private fun setHideMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, eduContext: EduContextPool?) {
+    private fun setHideMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, classUserVideoView: AgoraEduListVideoComponent, eduContext: EduContextPool?) {
         if (currentTeacherVideoPresentation != null && currentTeacherVideoPresentation!!.isShowing) {
             //从副屏移除视图
-            this.currentTeacherVideoPresentation!!.binding.root.removeView(teacherVideoView)
+            this.currentTeacherVideoPresentation!!.binding.root.removeView(classUserVideoView)
             //将视图添加到小屏
-            areaViewGroup.addView(teacherVideoView, 0, smallShowLayoutParams)
+            classUserVideoView.hideScreenDisplayShow(teacherVideoView)
+            areaViewGroup.addView(teacherVideoView)
+            areaViewGroup.addView(classUserVideoView, smallShowLayoutParams)
             areaViewGroup.visibility = View.VISIBLE
             //调低分辨率
             eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
@@ -188,6 +191,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      */
     fun resetShowMoreDisplay(
         showMore: Boolean, areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent,
+        classUserVideoView: AgoraEduListVideoComponent,
         eduContext: EduContextPool?,
     ) {
         showSecondDisplay = showMore
@@ -195,9 +199,9 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             this.options.runOnUiThread {
                 try {
                     if (showMore) {
-                        setShowMoreScreenDisplay(areaViewGroup, teacherVideoView, eduContext)
+                        setShowMoreScreenDisplay(areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
                     } else {
-                        setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, eduContext)
+                        setHideMoreScreenDisplay(areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
                     }
                 } catch (ignore: Exception) {
                     LogX.e(TAG, ignore.message)

@@ -24,6 +24,15 @@ class VideoUtils {
     private val smallFrameRate = 15
     private val smallVideoBitrate = 200
 
+    companion object {
+        var showColumns = 3
+        var showRows = 3
+        var showWidth = 640
+        var showHeight = 480
+        var showFrameRate = 30
+        var showBitrate = 800
+    }
+
     fun getDefaultVideoEncoderConfigs(): AgoraEduContextLocalStreamConfig {
         return AgoraEduContextLocalStreamConfig(
             defaultVideoWidth,

@@ -38,6 +38,7 @@ object AgoraClassroomSDK {
     var launchConfigList = mutableMapOf<String, AgoraEduLaunchConfig>()
     private var currentLaunchConfig: AgoraEduLaunchConfig? = null
 
+
     fun launch(context: Context, launchConfig: AgoraEduLaunchConfig, callback: AgoraEduLaunchCallback) {
         AgoraSDKInitUtils.initSDK(context)
 

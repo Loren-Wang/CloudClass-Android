@@ -9,20 +9,35 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListUpdateCallback
+import androidx.recyclerview.widget.RecyclerView
 import com.agora.edu.component.common.AbsAgoraEduComponent
 import com.agora.edu.component.common.IAgoraUIProvider
 import com.agora.edu.component.helper.AgoraRenderUtils
 import com.agora.edu.component.teachaids.presenter.FCRLargeWindowManager
+import io.agora.agoraeducore.core.context.AgoraEduContextAudioSourceType
+import io.agora.agoraeducore.core.context.AgoraEduContextMediaSourceState
+import io.agora.agoraeducore.core.context.AgoraEduContextMediaStreamType
 import io.agora.agoraeducore.core.context.AgoraEduContextUserInfo
+import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
+import io.agora.agoraeducore.core.context.AgoraEduContextVideoSourceType
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
 import io.agora.agoraeducore.core.internal.framework.proxy.RoomType
+import io.agora.agoraeducore.core.internal.launch.AgoraEduClassRoom
 import io.agora.agoraeduuikit.R
 import io.agora.agoraeduuikit.interfaces.listeners.IAgoraUIVideoListener
 import io.agora.agoraeduuikit.provider.AgoraUIUserDetailInfo
 import io.agora.agoraeduuikit.provider.UIDataProviderListenerImpl
+import io.agora.agoraeduuikit.util.VideoUtils
+
 
 /**
  * author : felix
@@ -42,6 +57,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     private val waveStateUpdateRun = WaveStateUpdateRun()
     private val recyclerView = layout.findViewById<MyRecyclerView>(R.id.fcr_stu_list_recycler_view)
     private var localUserInfo: AgoraEduContextUserInfo? = null
+    private var lastTeacherLayoutParams:ViewGroup.LayoutParams?=null
     var classRoomType: RoomType = RoomType.SMALL_CLASS // 教室类型
     val mCurView: AbsAgoraEduComponent = this //当前的videoList 布局
     var hand = Handler(Looper.getMainLooper())
@@ -99,6 +115,12 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     private val videoItemMatcher = VideoListItemMatcher()
 
     private val differ = AsyncListDiffer(listUpdateCallback, AsyncDifferConfig.Builder(videoItemMatcher).build())
+
+    //显示列数量
+    private var showColumnCount: Int? = null
+
+    //显示行数量
+    private var showRowCount: Int? = null
 
     init {
         val leftArrow = layout.findViewById<ImageView>(R.id.iv_arrow_left)
@@ -296,7 +318,31 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
 
     private fun updateCoHostList(list: MutableList<AgoraUIUserDetailInfo>) {
         if (list.size > 0) {
-            differ.submitList(list.map { VideoItem(it, 0) } as MutableList<VideoItem>)
+            val videoItem = VideoItem(
+                AgoraUIUserDetailInfo(
+                    Math.random().toString(),
+                    "",
+                    AgoraEduContextUserRole.Assistant,
+                    false,
+                    0,
+                    whiteBoardGranted = false,
+                    isLocal = true,
+                    hasAudio = false,
+                    hasVideo = false,
+                    streamUuid = "",
+                    streamName = "",
+                    streamType = AgoraEduContextMediaStreamType.None,
+                    audioSourceType = AgoraEduContextAudioSourceType.None,
+                    videoSourceType = AgoraEduContextVideoSourceType.None,
+                    audioSourceState = AgoraEduContextMediaSourceState.Close,
+                    videoSourceState = AgoraEduContextMediaSourceState.Close
+                ), 0
+            )
+            val showList = arrayListOf<VideoItem>()
+            list.forEach { showList.add(VideoItem(it,0))}
+            showList.add(0, videoItem)
+            listUpdateCallback.onChanged(0,showList.size,null)
+            differ.submitList(showList.toList())
         } else {
             differ.submitList(null)
         }
@@ -314,6 +360,33 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
         waveStateUpdateRun.waving = waving
         waveStateUpdateRun.userUuid = userUuid
         recyclerView.post(waveStateUpdateRun)
+    }
+
+    fun addTeacherScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
+        showColumnCount = VideoUtils.showColumns
+        showRowCount = VideoUtils.showRows
+        val gridLayoutManager = GridLayoutManager(context, showColumnCount!!) // 3列布局
+        recyclerView.layoutManager = gridLayoutManager
+        initRvAdapter(recyclerView)
+        lastTeacherLayoutParams = teacherVideoView.layoutParams
+        viewTreeObserver.addOnGlobalLayoutListener(object :ViewTreeObserver.OnGlobalLayoutListener{
+            override fun onGlobalLayout() {
+                LayoutParams(width / showColumnCount!! - itemMargin, height / showRowCount!! - itemMargin).let {
+                    addView(teacherVideoView, it)
+                }
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
+    fun hideScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
+        showColumnCount = null
+        showRowCount = null
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        initRvAdapter(recyclerView)
+        removeView(teacherVideoView)
+        teacherVideoView.layoutParams = lastTeacherLayoutParams
+        lastTeacherLayoutParams = null
     }
 
     inner class VolumeUpdateRun : Runnable {
@@ -369,25 +442,31 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
             if (classRoomType == RoomType.LARGE_CLASS) {
                 return VideoHolder(
                     layoutInflater.inflate(R.layout.agora_edu_userlist_video_item_v2, parent, false),
+                    showColumnCount, showRowCount, width,height,
                     callback
                 )
             }
 
             return VideoHolder(
                 layoutInflater.inflate(R.layout.agora_edu_userlist_video_item, parent, false),
+                showColumnCount, showRowCount, width,height,
                 callback
             )
         }
 
         override fun onBindViewHolder(holder: VideoHolder, position: Int) {
             val index = holder.bindingAdapterPosition
-            holder.bind(roomUuid, differ.currentList[index], agoraUIProvider, mCurView)
+            if (position == 0 || position >= differ.currentList.size) {
+                return
+            }
+            holder.bind(roomUuid, differ.currentList[index - 1], agoraUIProvider, mCurView)
         }
 
         override fun getItemCount(): Int {
-            return differ.currentList.size
+            return if(showRowCount != null && showColumnCount != null) showRowCount!! * showColumnCount!! else differ.currentList.size
         }
     }
+
 }
 
 internal data class VideoItem(
@@ -425,24 +504,29 @@ internal class VideoListItemMatcher : DiffUtil.ItemCallback<VideoItem>() {
 }
 
 
-internal class VideoHolder(var view: View, var callback: IAgoraUIVideoListener?) : RecyclerView.ViewHolder(view),
+internal class VideoHolder(var view: View, val showColumnCount: Int?, val showRowCount: Int?, val width: Int, val height: Int, val callback: IAgoraUIVideoListener?) : RecyclerView.ViewHolder(view),
     IAgoraUIVideoListener {
 
-    var uiVideo = view.findViewById<AgoraEduVideoComponent>(R.id.agora_edu_video)
-
-    fun bind(roomUuid: String?, item: VideoItem, agoraUIProvider: IAgoraUIProvider, mCurView: AbsAgoraEduComponent) {
-        roomUuid?.let {
-            uiVideo.largeWindowOpened = FCRLargeWindowManager.isLargeWindow(it, item.info.streamUuid)
+    var uiVideo = view.findViewById<AgoraEduVideoComponent>(R.id.agora_edu_video).also {
+        if(showColumnCount != null && showRowCount != null) {
+            it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / showRowCount)
         }
-        uiVideo.videoListener = this
-        uiVideo.initView(agoraUIProvider)
+    }
+
+    fun bind(roomUuid: String?, item: VideoItem?, agoraUIProvider: IAgoraUIProvider, mCurView: AbsAgoraEduComponent) {
+        if (item != null && !item.info.streamName.isNullOrEmpty()) {
+            roomUuid?.let {
+                uiVideo.largeWindowOpened = FCRLargeWindowManager.isLargeWindow(it, item.info.streamUuid)
+            }
+            uiVideo.videoListener = this
+            uiVideo.initView(agoraUIProvider)
 
         //记录当前item 相对于整个讲台的left
         uiVideo.setVideoItemLeft(mCurView.left.toFloat() + absoluteAdapterPosition * uiVideo.context.resources.getDimensionPixelOffset(R.dimen.agora_small_video_w))
         uiVideo.upsertUserDetailInfo(item.info)
         uiVideo.updateAudioVolumeIndication(item.audioVolume, item.info.streamUuid)
     }
-
+}
     fun updateAudioVolumeIndication(volume: Int, streamUuid: String) {
         uiVideo.updateAudioVolumeIndication(volume, streamUuid)
     }
