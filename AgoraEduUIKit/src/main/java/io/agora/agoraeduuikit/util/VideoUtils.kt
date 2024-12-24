@@ -27,10 +27,7 @@ class VideoUtils {
     companion object {
         var showColumns = 3
         var showRows = 3
-        var showWidth = 640
-        var showHeight = 480
-        var showFrameRate = 30
-        var showBitrate = 800
+        var AgoraEduContextVideoSubscribeLevel = io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel.HIGH
     }
 
     fun getDefaultVideoEncoderConfigs(): AgoraEduContextLocalStreamConfig {

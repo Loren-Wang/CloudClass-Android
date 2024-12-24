@@ -14,6 +14,7 @@ import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
 import io.agora.agoraeducore.core.context.EduContextPool
 import io.agora.agoraeducore.core.internal.log.LogX
+import io.agora.agoraeduuikit.util.VideoUtils
 import io.agora.classroom.ui.AgoraClassTeacherVideoPresentation
 
 
@@ -131,15 +132,10 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             classUserVideoView.addTeacherScreenDisplayShow(teacherVideoView)
             //将view移动到副屏
             this.currentTeacherVideoPresentation!!.binding.root.addView(classUserVideoView, moreShowLayoutParams)
-            //设置高分辨率
-            eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
-                if (it.isNotEmpty()) {
-                    eduContext.streamContext()?.getStreamList(it[0].userUuid)?.let { streamList ->
-                        if (streamList.isNotEmpty()) {
-                            eduContext.streamContext()
-                                ?.setRemoteVideoStreamSubscribeLevel(streamList[0].streamUuid, AgoraEduContextVideoSubscribeLevel.HIGH)
-                        }
-                    }
+            //设置分辨率
+            eduContext?.streamContext()?.getAllStreamList()?.forEach {
+                if(it.streamUuid.isEmpty() ){
+                    eduContext.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, VideoUtils.AgoraEduContextVideoSubscribeLevel)
                 }
             }
         } else {
@@ -165,14 +161,9 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             areaViewGroup.addView(classUserVideoView, smallShowLayoutParams)
             areaViewGroup.visibility = View.VISIBLE
             //调低分辨率
-            eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
-                if (it.isNotEmpty()) {
-                    eduContext.streamContext()?.getStreamList(it[0].userUuid)?.let { streamList ->
-                        if (streamList.isNotEmpty()) {
-                            eduContext.streamContext()
-                                ?.setRemoteVideoStreamSubscribeLevel(streamList[0].streamUuid, AgoraEduContextVideoSubscribeLevel.LOW)
-                        }
-                    }
+            eduContext?.streamContext()?.getAllStreamList()?.forEach {
+                if(it.streamUuid.isEmpty() ){
+                    eduContext.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, AgoraEduContextVideoSubscribeLevel.LOW)
                 }
             }
             //关闭副屏
