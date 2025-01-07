@@ -25,9 +25,8 @@ class VideoUtils {
     private val smallVideoBitrate = 200
 
     companion object {
-        var showColumns = 3
-        var showRows = 3
-        var AgoraEduContextVideoSubscribeLevel = io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel.HIGH
+        //最大显示的宫格数量
+        var maxShowGridCount = 4
     }
 
     fun getDefaultVideoEncoderConfigs(): AgoraEduContextLocalStreamConfig {

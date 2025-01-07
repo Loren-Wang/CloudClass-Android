@@ -14,10 +14,6 @@ class AgoraClassTeacherVideoPresentation(context: Context, display: Display) : A
         super.onCreate(savedInstanceState)
         binding = ActivityAgoraClassTeacherVideoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.nameText.setShadowLayer(
-            context.resources.getDimensionPixelSize(R.dimen.shadow_width).toFloat(),
-            2.0f, 2.0f, context.resources.getColor(R.color.fcr_text_level1_color)
-        )
     }
 
 }

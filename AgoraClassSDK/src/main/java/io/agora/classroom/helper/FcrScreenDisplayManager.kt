@@ -132,23 +132,14 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             classUserVideoView.addTeacherScreenDisplayShow(teacherVideoView)
             //将view移动到副屏
             this.currentTeacherVideoPresentation!!.binding.root.addView(classUserVideoView, moreShowLayoutParams)
-            //设置分辨率
-            eduContext?.streamContext()?.getAllStreamList()?.forEach {
-                if(it.streamUuid.isEmpty() ){
-                    eduContext.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, VideoUtils.AgoraEduContextVideoSubscribeLevel)
-                }
-            }
         } else {
             setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, classUserVideoView, eduContext)
         }
-        //设置显示的用户信息
-        this.setShowUserInfo(eduContext)
     }
 
     /**
      * 设置隐藏关闭副屏
      * @param areaViewGroup 原有的教师端视频流组件的父级容器
-     * @param teacherVideoView 教师端视频流组件
      * @param eduContext 总的配置信息
      */
     private fun setHideMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, classUserVideoView: AgoraEduListVideoComponent, eduContext: EduContextPool?) {
@@ -198,22 +189,6 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
                     LogX.e(TAG, ignore.message)
                 }
             }
-        }
-    }
-
-    /**
-     * 设置显示的用户信息
-     */
-    fun setShowUserInfo(eduContext: EduContextPool?) {
-        options.runOnUiThread {
-            this@FcrScreenDisplayManager.currentTeacherVideoPresentation?.binding?.nameText?.text =
-                eduContext?.userContext()?.getUserList(AgoraEduContextUserRole.Teacher)?.let {
-                    return@let if (it.isNotEmpty()) {
-                        it[0].userName
-                    } else {
-                        ""
-                    }
-                }
         }
     }
 

@@ -71,19 +71,6 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
         }
     }
 
-    protected val smallUserHandler = object : UserHandler() {
-        override fun onRemoteUserLeft(user: AgoraEduContextUserInfo, operator: AgoraEduContextUserInfo?, reason: EduContextUserLeftReason) {
-            super.onRemoteUserLeft(user, operator, reason)
-            screenDisplayManager.setShowUserInfo(eduCore()?.eduContextPool())
-        }
-
-        override fun onUserOnLineUpdated(localUser: EduLocalUser, onlineUsers: MutableList<OnlineUserInfo>,
-            offlineUsers: MutableList<OfflineUserInfo>) {
-            super.onUserOnLineUpdated(localUser, onlineUsers, offlineUsers)
-            screenDisplayManager.setShowUserInfo(eduCore()?.eduContextPool())
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAgoraClassSmallBinding.inflate(layoutInflater)
@@ -149,7 +136,6 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
     open fun joinClassRoom() {
         runOnUiThread {
             eduCore()?.eduContextPool()?.let { context ->
-                context.userContext()?.addHandler(smallUserHandler)
                 context.roomContext()?.addHandler(roomHandler)
                 // header area
                 if (getUIConfig().isHeaderVisible) {
@@ -205,7 +191,6 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
         super.onDestroy()
         binding.agoraWaterMark.pauseScroll()
         eduCore()?.eduContextPool()?.roomContext()?.removeHandler(roomHandler)
-        eduCore()?.eduContextPool()?.userContext()?.removeHandler(smallUserHandler)
     }
 
     override fun onRelease() {
