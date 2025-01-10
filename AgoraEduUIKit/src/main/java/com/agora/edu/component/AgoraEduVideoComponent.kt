@@ -71,7 +71,8 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
     var videoListener: IAgoraUIVideoListener? = null
     var videoFlatView: AgoraEduFloatingControlWindow? = null
     var localUsrInfo: AgoraEduContextUserInfo? = null
-    private var curUserDetailInfo: AgoraUIUserDetailInfo? = null
+    var curUserDetailInfo: AgoraUIUserDetailInfo? = null
+        private set
     var largeWindowOpened: Boolean = false //当前视频组件对应的大窗widget是否打开
     var isLargeWindow: Boolean = false // 当前组件是否是大窗组件还是基础视频窗组件，用于拖拉事件
     private var lastVideoRender: Boolean? = true
@@ -541,6 +542,9 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
         binding.nameText.text = name
     }
 
+    //是否绘制过视频
+    private var draw = false
+
     fun upsertUserDetailInfo(info: AgoraUIUserDetailInfo?, curVideoShouldRender: Boolean? = true) {
         eduContext?.widgetContext()?.addWidgetMessageObserver(
             largeWindowObserver, AgoraWidgetDefaultId.LargeWindow.id + "-" + info?.streamUuid
@@ -597,17 +601,24 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
                     updateGrantedStatus(info.whiteBoardGranted)
                 }
 
+                if(info.streamUuid == curUserDetailInfo?.streamUuid)
                 if (info.isVideoEnable()) {
-                    videoListener?.onRendererContainer(binding.videoContainer, info)
+                    if(!draw || info.streamUuid != curUserDetailInfo?.streamUuid) {
+                        draw = true
+                        videoListener?.onRendererContainer(binding.videoContainer, info)
+                    }
                 } else {
+                    draw = false
                     videoListener?.onRendererContainer(null, info)
                 }
             } else {
+                draw = false
                 binding.nameText.text = ""
                 binding.trophyLayout.visibility = GONE
                 binding.videoIc.visibility = GONE
                 binding.boardGrantedIc.visibility = GONE
                 curUserDetailInfo?.let {
+                    draw = false
                     videoListener?.onRendererContainer(null, it)
                 }
             }

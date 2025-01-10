@@ -1,17 +1,22 @@
 package com.agora.edu.component
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import androidx.core.view.get
 import androidx.core.view.isVisible
+import androidx.core.view.marginTop
+import androidx.core.view.setMargins
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -22,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.agora.edu.component.common.AbsAgoraEduComponent
 import com.agora.edu.component.common.IAgoraUIProvider
 import com.agora.edu.component.helper.AgoraRenderUtils
+import com.agora.edu.component.helper.GridSpacingItemDecoration
 import com.agora.edu.component.teachaids.presenter.FCRLargeWindowManager
 import io.agora.agoraeducore.core.context.AgoraEduContextAudioSourceType
 import io.agora.agoraeducore.core.context.AgoraEduContextMediaSourceState
@@ -37,6 +43,7 @@ import io.agora.agoraeduuikit.interfaces.listeners.IAgoraUIVideoListener
 import io.agora.agoraeduuikit.provider.AgoraUIUserDetailInfo
 import io.agora.agoraeduuikit.provider.UIDataProviderListenerImpl
 import io.agora.agoraeduuikit.util.VideoUtils
+import java.lang.reflect.Parameter
 
 
 /**
@@ -104,16 +111,17 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
         }
 
         override fun onChanged(position: Int, count: Int, payload: Any?) {
-            resetShowAdapterList()
-//            (recyclerView.findViewHolderForAdapterPosition(position) as? VideoHolder)?.let { holder ->
-//                payload?.let { payload ->
-//                    if (payload is Pair<*, *>) {
-//                        (payload.second as? VideoItem)?.let { item ->
-//                            holder.bind(roomUuid, item, agoraUIProvider, mCurView)
-//                        }
-//                    }
-//                }
-//            }
+            if(position >= currentPage * currentPageSize && position < (currentPage + 1) * currentPageSize){
+                (recyclerView.findViewHolderForAdapterPosition(position - currentPage * currentPageSize) as? VideoHolder)?.let { holder ->
+                    payload?.let { payload ->
+                        if (payload is Pair<*, *>) {
+                            (payload.second as? VideoItem)?.let { item ->
+                                holder.bind(roomUuid, item, agoraUIProvider, mCurView)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -232,24 +240,34 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
         })
 
         leftArrow.setOnClickListener {
-            val layoutManager = rv.layoutManager as LinearLayoutManager
-            val firstItem: Int = layoutManager.findFirstVisibleItemPosition()
-            if (firstItem > 0) {
-                rv.smoothScrollToPosition(firstItem - 1)
-            } else {
-                val left: Int = rv.getChildAt(0).left
-                rv.smoothScrollBy(left, 0)
+            if(showScreenDisplay){
+                currentPage = 0.coerceAtLeast(currentPage - 1)
+                resetShowAdapterList()
+            }else{
+                val layoutManager = rv.layoutManager as LinearLayoutManager
+                val firstItem: Int = layoutManager.findFirstVisibleItemPosition()
+                if (firstItem > 0) {
+                    rv.smoothScrollToPosition(firstItem - 1)
+                } else {
+                    val left: Int = rv.getChildAt(0).left
+                    rv.smoothScrollBy(left, 0)
+                }
             }
         }
 
         rightArrow.setOnClickListener {
-            val layoutManager = rv.layoutManager as LinearLayoutManager
-            val lastItem: Int = layoutManager.findLastVisibleItemPosition()
-            if (lastItem <= rv.childCount - 1) {
-                rv.smoothScrollToPosition(lastItem + 1)
-            } else {
-                val right: Int = rv.getChildAt(rv.childCount - 1).right
-                rv.smoothScrollBy(right, 0)
+            if(showScreenDisplay){
+                currentPage += 1
+                resetShowAdapterList()
+            }else{
+                val layoutManager = rv.layoutManager as LinearLayoutManager
+                val lastItem: Int = layoutManager.findLastVisibleItemPosition()
+                if (lastItem <= rv.childCount - 1) {
+                    rv.smoothScrollToPosition(lastItem + 1)
+                } else {
+                    val right: Int = rv.getChildAt(rv.childCount - 1).right
+                    rv.smoothScrollBy(right, 0)
+                }
             }
         }
     }
@@ -321,29 +339,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
 
     private fun updateCoHostList(list: MutableList<AgoraUIUserDetailInfo>) {
         if (list.size > 0) {
-            val videoItem = VideoItem(
-                AgoraUIUserDetailInfo(
-                    Math.random().toString(),
-                    "",
-                    AgoraEduContextUserRole.Assistant,
-                    false,
-                    0,
-                    whiteBoardGranted = false,
-                    isLocal = true,
-                    hasAudio = false,
-                    hasVideo = false,
-                    streamUuid = "",
-                    streamName = "",
-                    streamType = AgoraEduContextMediaStreamType.None,
-                    audioSourceType = AgoraEduContextAudioSourceType.None,
-                    videoSourceType = AgoraEduContextVideoSourceType.None,
-                    audioSourceState = AgoraEduContextMediaSourceState.Close,
-                    videoSourceState = AgoraEduContextMediaSourceState.Close
-                ), 0
-            )
-            val showList = arrayListOf<VideoItem>()
-            list.forEach { showList.add(VideoItem(it, 0)) }
-            showList.add(0, videoItem)
+            val showList = getAllShowList(list.map { VideoItem(it, 0) })
             listUpdateCallback.onChanged(0, showList.size, null)
             differ.submitList(showList.toList())
         } else {
@@ -370,15 +366,15 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
         showScreenDisplay = true
         this.teacherVideoView = teacherVideoView
         resetShowAdapterList()
-        lastTeacherLayoutParams = teacherVideoView.layoutParams
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                LayoutParams(width / showColumnCount!! - itemMargin, height / showRowCount!! - itemMargin).let {
-                    addView(teacherVideoView, it)
-                }
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
+//        lastTeacherLayoutParams = teacherVideoView.layoutParams
+//        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+//                LayoutParams(width / showColumnCount!! - itemMargin, height / showRowCount!! - itemMargin).let {
+////                    addView(teacherVideoView, it)
+//                }
+//                viewTreeObserver.removeOnGlobalLayoutListener(this)
+//            }
+//        })
     }
 
     //隐藏副屏
@@ -386,9 +382,9 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
         showScreenDisplay = false
         this.teacherVideoView = null
         resetShowAdapterList()
-        removeView(teacherVideoView)
-        teacherVideoView.layoutParams = lastTeacherLayoutParams
-        lastTeacherLayoutParams = null
+//        removeView(teacherVideoView)
+//        teacherVideoView.layoutParams = lastTeacherLayoutParams
+//        lastTeacherLayoutParams = null
     }
 
     inner class VolumeUpdateRun : Runnable {
@@ -492,43 +488,102 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     //流类型
     private var streamLevel: AgoraEduContextVideoSubscribeLevel = AgoraEduContextVideoSubscribeLevel.LOW
 
+    //获取显示的数据列表
+    private fun getAllShowList(list: List<VideoItem>): ArrayList<VideoItem> {
+        val allList = arrayListOf<VideoItem>()
+        list.find { item -> AgoraEduContextUserRole.Teacher == item.info.role && item.info.isLocal }.let {
+            if (it != null) {
+                allList.add(it)
+            } else {
+                if (this.teacherVideoView != null && this.teacherVideoView?.curUserDetailInfo != null) {
+                    val videoItem = getEmptyItem()
+                    videoItem.info = this.teacherVideoView!!.curUserDetailInfo!!
+                    allList.add(0, videoItem)
+                } else {
+
+                }
+            }
+        } //先添加老师
+        list.find { item -> item.info.isLocal }?.let { allList.add(it) } //添加自己
+        list.filter { item -> !item.info.isLocal && AgoraEduContextUserRole.Teacher != item.info.role }.let { allList.addAll(it) } //添加其他人
+        val showList = arrayListOf<VideoItem>()
+        if (showScreenDisplay) {
+            if (currentPage == 0) {
+                //添加其他的数据
+                allList.forEachIndexed { index, videoItem ->
+                    if (index < currentPageSize - 1) {
+                        showList.add(videoItem)
+                    }
+                }
+                haveNext = (allList.size - 1) > currentPageSize
+            } else {
+                val start = currentPage * currentPageSize
+                allList.forEachIndexed { index, videoItem ->
+                    if (start >= index && index < currentPageSize + start) {
+                        showList.add(videoItem)
+                    }
+                }
+                haveNext = (allList.size - 1) > start + currentPageSize
+            }
+            //进行数据补位
+            for (index in 0 until currentPageSize - showAdapterList.size) {
+                showList.add(getEmptyItem())
+            }
+        } else {
+            showList.addAll(allList)
+        }
+        return showList
+    }
+
     //重置显示的适配器列表
     private fun resetShowAdapterList() {
+        for (i in 0 until recyclerView.itemDecorationCount) {
+            recyclerView.removeItemDecorationAt(i)
+        }
         //列表布局显示
         if (showScreenDisplay) {
             val allSize = differ.currentList.size
-            if (allSize <= VideoUtils.maxShowGridCount) {
-                if (allSize < 4) {
-                    showColumnCount = 2
-                    showRowCount = 2
-                    streamLevel = AgoraEduContextVideoSubscribeLevel.HIGH
-                } else if (allSize < 6) {
-                    showColumnCount = 3
-                    showRowCount = 2
-                    streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
-                } else if (allSize < 9) {
-                    showColumnCount = 3
-                    showRowCount = 3
-                    streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
-                }
-                val gridLayoutManager = GridLayoutManager(context, showColumnCount!!) // 3列布局
-                recyclerView.layoutManager = gridLayoutManager
+            if (allSize < 4) {
+                showColumnCount = 2
+                showRowCount = 2
+                streamLevel = AgoraEduContextVideoSubscribeLevel.HIGH
+            } else if (allSize < 6) {
+                showColumnCount = 3
+                showRowCount = 2
+                streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
+            } else if (allSize < 9) {
+                showColumnCount = 3
+                showRowCount = 3
+                streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
+            }
+            val gridLayoutManager = GridLayoutManager(context, showColumnCount!!) // 3列布局
+            recyclerView.layoutManager = gridLayoutManager
+            initRvAdapter(recyclerView, streamLevel)
+            recyclerView.addItemDecoration(GridSpacingItemDecoration(showColumnCount!!,
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10F, Resources.getSystem().displayMetrics).toInt(),false))
+            recyclerView?.setPadding(
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80F, Resources.getSystem().displayMetrics).toInt(),
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50F, Resources.getSystem().displayMetrics).toInt(),
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80F, Resources.getSystem().displayMetrics).toInt(),
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50F, Resources.getSystem().displayMetrics).toInt()
+            )
+//            (recyclerView.layoutParams as MarginLayoutParams?)?.setMargins(
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80F, Resources.getSystem().displayMetrics).toInt(),
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50F, Resources.getSystem().displayMetrics).toInt(),
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80F, Resources.getSystem().displayMetrics).toInt(),
+//                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50F, Resources.getSystem().displayMetrics).toInt()
+//            )
+        } else {
+            if (recyclerView.layoutManager !is LinearLayoutManager) {
+                streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
+                showColumnCount = null
+                showRowCount = null
+                recyclerView.layoutManager = LinearLayoutManager(context)
                 initRvAdapter(recyclerView, streamLevel)
             }
-        } else {
-            streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
-            showColumnCount = null
-            showRowCount = null
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            initRvAdapter(recyclerView, streamLevel)
         }
         //数据逻辑处理
-        val allList = arrayListOf<VideoItem>()
-        differ.currentList.find { item -> AgoraEduContextUserRole.Teacher == item.info.role && item.info.isLocal }?.let { allList.add(it) } //先添加老师
-        differ.currentList.find {item->item.info.isLocal  }?.let { allList.add(it) } //添加自己
-        differ.currentList.filter { item -> !item.info.isLocal && AgoraEduContextUserRole.Teacher != item.info.role }.let { allList.addAll(it) } //添加其他人
-
-
+        val allList = getAllShowList(differ.currentList)
         showAdapterList.clear()
         if (showScreenDisplay) {
             if (currentPage == 0) {
@@ -552,14 +607,29 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
             for (index in 0 until currentPageSize - showAdapterList.size) {
                 showAdapterList.add(getEmptyItem())
             }
-            this.teacherVideoView?.visibility = if (currentPage == 0) View.VISIBLE else View.GONE
             this.findViewById<View>(R.id.iv_arrow_left)?.visibility = if (currentPage == 0) View.GONE else View.VISIBLE
             this.findViewById<View>(R.id.iv_arrow_right)?.visibility = if (haveNext) View.VISIBLE else View.GONE
         } else {
             showAdapterList.addAll(allList)
         }
-        mVideoAdapter.showList = showAdapterList
-        mVideoAdapter.notifyItemRangeChanged(0, showAdapterList.size)
+        if (showAdapterList.size < mVideoAdapter.showList.size) {
+            val removeList = arrayListOf<VideoItem>()
+            for (index in showAdapterList.size until mVideoAdapter.showList.size) {
+                removeList.add(mVideoAdapter.showList.get(index))
+                mVideoAdapter.notifyItemRemoved(index)
+            }
+            mVideoAdapter.showList.removeAll(removeList.toSet())
+        } else {
+            showAdapterList.forEachIndexed { index, videoItem ->
+                if (index >= mVideoAdapter.showList.size) {
+                    mVideoAdapter.showList.add(videoItem)
+                    mVideoAdapter.notifyItemInserted(index)
+                } else {
+                    mVideoAdapter.showList[index] = videoItem
+                    mVideoAdapter.notifyItemChanged(index)
+                }
+            }
+        }
     }
 
     //空数据实体
@@ -614,7 +684,9 @@ internal class VideoHolder(var view: View, val showColumnCount: Int?, val showRo
 
     var uiVideo = view.findViewById<AgoraEduVideoComponent>(R.id.agora_edu_video).also {
         if (showColumnCount != null && showRowCount != null) {
-            it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / showRowCount)
+            it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (height -
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100F + 10 * (showRowCount - 1), Resources.getSystem().displayMetrics).toInt()) / showRowCount
+            )
         }
     }
 
