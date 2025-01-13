@@ -494,7 +494,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     //获取显示的数据列表
     private fun getAllShowList(list: List<VideoItem>): ArrayList<VideoItem> {
         val allList = arrayListOf<VideoItem>()
-        list.find { item -> AgoraEduContextUserRole.Teacher == item.info.role && item.info.isLocal }.let {
+        list.find { item -> AgoraEduContextUserRole.Teacher == item.info.role }.let {
             if (it != null) {
                 allList.add(it)
             } else {
@@ -507,7 +507,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
                 }
             }
         } //先添加老师
-        list.find { item -> item.info.isLocal }?.let { allList.add(it) } //添加自己
+        list.find { item -> AgoraEduContextUserRole.Teacher != item.info.role && item.info.isLocal }?.let { allList.add(it) } //添加自己
         list.filter { item -> !item.info.isLocal && AgoraEduContextUserRole.Teacher != item.info.role }.let { allList.addAll(it) } //添加其他人
         val showList = arrayListOf<VideoItem>()
         if (showScreenDisplay) {
