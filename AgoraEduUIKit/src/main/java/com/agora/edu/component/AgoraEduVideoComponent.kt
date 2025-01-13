@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
 import androidx.core.view.GestureDetectorCompat
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
@@ -494,7 +495,7 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
         binding.videoContainer.visibility = GONE
         if (info == null) {
             setVideoImgPlaceHolder(1)
-        } else if (info.isVideoEnable() && info.hasVideo) {
+        } else if (info.isVideoEnable()) {
             binding.videoContainer.visibility = VISIBLE
         } else if (!info.isVideoEnable()) {
             setVideoImgPlaceHolder(6)
@@ -600,13 +601,9 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
                 if (info.role != Teacher) {
                     updateGrantedStatus(info.whiteBoardGranted)
                 }
-
-                if(info.streamUuid == curUserDetailInfo?.streamUuid)
                 if (info.isVideoEnable()) {
-                    if(!draw || info.streamUuid != curUserDetailInfo?.streamUuid) {
-                        draw = true
-                        videoListener?.onRendererContainer(binding.videoContainer, info)
-                    }
+                    draw = true
+                    videoListener?.onRendererContainer(binding.videoContainer, info)
                 } else {
                     draw = false
                     videoListener?.onRendererContainer(null, info)

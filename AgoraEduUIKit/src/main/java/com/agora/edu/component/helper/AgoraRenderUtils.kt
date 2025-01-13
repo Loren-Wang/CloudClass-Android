@@ -30,7 +30,7 @@ object AgoraRenderUtils {
 
         LogX.i(TAG,
             "renderView v2>>>>> streamUuid=$streamUuid," +
-                    " hasAudio= ${info.hasAudio},hasVideo=${info.hasVideo}," +
+                    " hasAudio= ${info.hasAudio},hasVideo=${info.hasVideo}," + "videoContainer=${videoContainer != null}" +
                     " audioSourceState= ${info.audioSourceState},videoSourceState=${info.videoSourceState}"
         )
 

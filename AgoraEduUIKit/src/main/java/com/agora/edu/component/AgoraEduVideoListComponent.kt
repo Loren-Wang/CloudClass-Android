@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.agora.edu.component.common.AbsAgoraEduComponent
 import com.agora.edu.component.common.IAgoraUIProvider
 import com.agora.edu.component.helper.AgoraRenderUtils
+import com.agora.edu.component.helper.AgoraRenderUtils.TAG
 import com.agora.edu.component.helper.GridSpacingItemDecoration
 import com.agora.edu.component.teachaids.presenter.FCRLargeWindowManager
 import io.agora.agoraeducore.core.context.AgoraEduContextAudioSourceType
@@ -37,7 +38,9 @@ import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSourceType
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
 import io.agora.agoraeducore.core.internal.framework.proxy.RoomType
+import io.agora.agoraeducore.core.internal.framework.utils.GsonUtil
 import io.agora.agoraeducore.core.internal.launch.AgoraEduClassRoom
+import io.agora.agoraeducore.core.internal.log.LogX
 import io.agora.agoraeduuikit.R
 import io.agora.agoraeduuikit.interfaces.listeners.IAgoraUIVideoListener
 import io.agora.agoraeduuikit.provider.AgoraUIUserDetailInfo
@@ -75,8 +78,8 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     var roomUuid: String? = null
 
     val uiDataProviderListener = object : UIDataProviderListenerImpl() {
-        override fun onCoHostListChanged(userList: List<AgoraUIUserDetailInfo>) {
-            super.onCoHostListChanged(userList)
+        override fun onUserListChanged(userList: List<AgoraUIUserDetailInfo>) {
+            super.onUserListChanged(userList)
             uiHandler.post { updateCoHostList(userList.toMutableList()) }
         }
 
@@ -691,7 +694,7 @@ internal class VideoHolder(var view: View, val showColumnCount: Int?, val showRo
     }
 
     fun bind(roomUuid: String?, item: VideoItem?, agoraUIProvider: IAgoraUIProvider, mCurView: AbsAgoraEduComponent) {
-        if (item != null && !item.info.streamName.isNullOrEmpty()) {
+        if (item != null) {
             roomUuid?.let {
                 uiVideo.largeWindowOpened = FCRLargeWindowManager.isLargeWindow(it, item.info.streamUuid)
             }
