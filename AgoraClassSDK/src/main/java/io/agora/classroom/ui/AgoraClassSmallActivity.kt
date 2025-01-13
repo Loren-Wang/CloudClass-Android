@@ -62,7 +62,9 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
             // 解析并判断讲台是否关闭
             handleStageStatus(RoomPropertiesHelper.isOpenStage(eduCore()))
             //接收到房间属性更新，从中取出数据更新视图
-            updateMoreScreenShow(properties[FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?)
+            if(properties.contains(FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY)) {
+                updateMoreScreenShow(properties[FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY] as Boolean?)
+            }
         }
 
         override fun onClassStateUpdated(state: AgoraEduContextClassState) {
