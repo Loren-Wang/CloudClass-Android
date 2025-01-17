@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.agora.edu.component.AgoraEduListVideoComponent
 import com.agora.edu.component.AgoraEduVideoComponent
 import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
@@ -127,7 +128,6 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             //从小屏列表中移除教师视图
             smallShowLayoutParams = classUserVideoView.layoutParams
             areaViewGroup.removeView(classUserVideoView)
-            areaViewGroup.removeView(teacherVideoView)
             areaViewGroup.visibility = View.GONE
             classUserVideoView.addTeacherScreenDisplayShow(teacherVideoView)
             //将view移动到副屏
@@ -148,7 +148,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             this.currentTeacherVideoPresentation!!.binding.root.removeView(classUserVideoView)
             //将视图添加到小屏
             classUserVideoView.hideScreenDisplayShow(teacherVideoView)
-            areaViewGroup.addView(teacherVideoView)
+            classUserVideoView.layoutParams = smallShowLayoutParams
             areaViewGroup.addView(classUserVideoView, smallShowLayoutParams)
             areaViewGroup.visibility = View.VISIBLE
             //调低分辨率
