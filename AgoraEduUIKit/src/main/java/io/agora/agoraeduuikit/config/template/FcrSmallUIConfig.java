@@ -46,7 +46,7 @@ public class FcrSmallUIConfig extends FcrUIConfig {
         netlessBoard.selector.isVisible = true;
         netlessBoard.text.isVisible = true;
 
-        agoraChat.isVisible = true;
+        agoraChat.isVisible = false;
         agoraChat.muteAll.isVisible = true;
         agoraChat.emoji.isVisible = true;
         agoraChat.picture.isVisible = true;
