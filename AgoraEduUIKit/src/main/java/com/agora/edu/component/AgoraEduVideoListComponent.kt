@@ -538,7 +538,12 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
             }
             return showList
         }else{
-            return list.filter { item -> AgoraEduContextUserRole.Teacher != item.info.role  }.toCollection(arrayListOf())
+            val allList = arrayListOf<VideoItem>()
+            list.filter { item->AgoraEduContextUserRole.Teacher != item.info.role  }.let {filterList->
+                filterList.find { item -> item.info.isLocal }?.let { allList.add(it) } //添加自己
+                filterList.find { item -> !item.info.isLocal }?.let { allList.add(it) } //添加
+            }
+            return allList
         }
     }
 
@@ -578,7 +583,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
             streamLevel = AgoraEduContextVideoSubscribeLevel.LOW
             showColumnCount = null
             showRowCount = null
-            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,true)
             initRvAdapter(recyclerView, streamLevel)
         }
         //数据逻辑处理
