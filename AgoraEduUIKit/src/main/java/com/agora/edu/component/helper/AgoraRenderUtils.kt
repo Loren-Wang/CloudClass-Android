@@ -37,7 +37,7 @@ object AgoraRenderUtils {
         // 渲染和订阅视频
         if (info.hasVideo && info.videoSourceState == AgoraEduContextMediaSourceState.Open) {
             if (videoContainer == null) {
-                eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(streamUuid)
+//                eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(streamUuid)
             } else {
                 eduCore?.eduContextPool()?.mediaContext()?.startRenderVideo(renderConfig, videoContainer, streamUuid)
             }

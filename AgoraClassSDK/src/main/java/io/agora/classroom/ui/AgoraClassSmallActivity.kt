@@ -99,8 +99,8 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
         LogX.i(TAG, "isOpenStage=$isOpenStage")
 
         runOnUiThread {
-            // 1、讲台区域隐藏
-            binding.agoraAreaVideo.visibility = if (isOpenStage) View.VISIBLE else View.GONE
+//            // 1、讲台区域隐藏
+//            binding.agoraAreaVideo.visibility = if (isOpenStage) View.VISIBLE else View.GONE
             // 2、设置白板比例
             val packet = AgoraBoardInteractionPacket(AgoraBoardInteractionSignal.BoardRatioChange, String())
             eduCore()?.eduContextPool()?.widgetContext()?.sendMessageToWidget(packet, AgoraWidgetDefaultId.WhiteBoard.id)
@@ -243,7 +243,7 @@ open class AgoraClassSmallActivity : AgoraEduClassActivity(), FcrScreenDisplayOp
    override fun updateMoreScreenShow(showMore: Boolean?) {
         val allowShowMore: Boolean = showMore?: (eduCore()?.eduContextPool()?.roomContext()?.getRoomProperties()?.get(FcrScreenDisplayManager.ROOM_TAG_DUAL_SCREEN_KEY) as Boolean?) ?: true
         agoraClassVideoPresenter?.videoSubscribeLevel = if (allowShowMore) AgoraEduContextVideoSubscribeLevel.HIGH else AgoraEduContextVideoSubscribeLevel.LOW
-        screenDisplayManager.resetShowMoreDisplay(allowShowMore, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,binding.agoraClassUserListVideo,
+        screenDisplayManager.resetShowMoreDisplay(allowShowMore,binding.flClassTeacherVideo, binding.agoraAreaVideo, binding.agoraClassTeacherVideo,binding.agoraClassUserListVideo,
             eduCore()?.eduContextPool())
     }
 //

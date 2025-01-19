@@ -601,13 +601,7 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
                 if (info.role != Teacher) {
                     updateGrantedStatus(info.whiteBoardGranted)
                 }
-                if (info.isVideoEnable()) {
-                    draw = true
-                    videoListener?.onRendererContainer(binding.videoContainer, info)
-                } else {
-                    draw = false
-                    videoListener?.onRendererContainer(null, info)
-                }
+                videoListener?.onRendererContainer(binding.videoContainer, info)
             } else {
                 draw = false
                 binding.nameText.text = ""
@@ -615,8 +609,7 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
                 binding.videoIc.visibility = GONE
                 binding.boardGrantedIc.visibility = GONE
                 curUserDetailInfo?.let {
-                    draw = false
-                    videoListener?.onRendererContainer(null, it)
+                    videoListener?.onRendererContainer(binding.videoContainer, it)
                 }
             }
             this.curUserDetailInfo = info?.copy()

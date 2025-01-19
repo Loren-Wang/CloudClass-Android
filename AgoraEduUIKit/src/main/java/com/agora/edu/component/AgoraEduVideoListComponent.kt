@@ -37,6 +37,7 @@ import io.agora.agoraeducore.core.context.AgoraEduContextUserInfo
 import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSourceType
 import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
+import io.agora.agoraeducore.core.context.EduContextRenderConfig
 import io.agora.agoraeducore.core.internal.framework.proxy.RoomType
 import io.agora.agoraeducore.core.internal.framework.utils.GsonUtil
 import io.agora.agoraeducore.core.internal.launch.AgoraEduClassRoom
@@ -367,6 +368,7 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     //显示副屏
     fun addTeacherScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
         showScreenDisplay = true
+        teacherVideoView.visibility = View.GONE
         teacherVideoView.curUserDetailInfo?.let {
             eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(it.streamUuid)
         }
@@ -377,13 +379,20 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     //隐藏副屏
     fun hideScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
         showScreenDisplay = false
-        mVideoAdapter.showList.forEach {
-            eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(it.info.streamUuid)
-        }
-        roomUuid?.let {teacherVideoView.largeWindowOpened = teacherVideoView.curUserDetailInfo?.streamUuid?.let { it1 -> FCRLargeWindowManager.isLargeWindow(it, it1) } == true }
-        teacherVideoView.initView(agoraUIProvider)
+        teacherVideoView.visibility = View.VISIBLE
+//        mVideoAdapter.showList.forEach {
+//            eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(it.info.streamUuid)
+//        }
+//        roomUuid?.let {teacherVideoView.largeWindowOpened = teacherVideoView.curUserDetailInfo?.streamUuid?.let { it1 -> FCRLargeWindowManager.isLargeWindow(it, it1) } == true }
+//        teacherVideoView.initView(agoraUIProvider)
         teacherVideoView.upsertUserDetailInfo(teacherVideoView.curUserDetailInfo)
-        teacherVideoView.curUserDetailInfo?.streamUuid?.let { teacherVideoView.updateAudioVolumeIndication(0, it) }
+        teacherVideoView.curUserDetailInfo?.streamUuid?.let { eduContext?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it, AgoraEduContextVideoSubscribeLevel.HIGH) }
+//        teacherVideoView.curUserDetailInfo?.streamUuid?.let {
+//            teacherVideoView.updateAudioVolumeIndication(0, it)
+//            eduCore?.eduContextPool()?.mediaContext()?.startRenderVideo(EduContextRenderConfig(), teacherVideoView, it)
+//            eduContext?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it, AgoraEduContextVideoSubscribeLevel.HIGH)
+//        }
+
         this.teacherVideoView = null
         resetShowAdapterList()
     }
@@ -701,7 +710,8 @@ internal class VideoHolder(var view: View, val showColumnCount: Int?, val showRo
             uiVideo.layoutParams.width = uiVideo.resources.getDimensionPixelOffset(R.dimen.agora_small_video_w)
             uiVideo.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-        if (item != null) {
+        if (item != null && item.info.streamUuid.isNotEmpty()) {
+            uiVideo.visibility = View.VISIBLE
             roomUuid?.let {
                 uiVideo.largeWindowOpened = FCRLargeWindowManager.isLargeWindow(it, item.info.streamUuid)
             }
@@ -712,6 +722,8 @@ internal class VideoHolder(var view: View, val showColumnCount: Int?, val showRo
             uiVideo.setVideoItemLeft(mCurView.left.toFloat() + absoluteAdapterPosition * uiVideo.context.resources.getDimensionPixelOffset(R.dimen.agora_small_video_w))
             uiVideo.upsertUserDetailInfo(item.info)
             uiVideo.updateAudioVolumeIndication(item.audioVolume, item.info.streamUuid)
+        }else{
+            uiVideo.visibility = View.GONE
         }
     }
 

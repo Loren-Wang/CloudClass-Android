@@ -28,28 +28,22 @@
             <com.agora.edu.component.AgoraEduHeadComponent
                 android:id="@+id/agora_class_head"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
         </com.agora.edu.component.common.AgoraEduLinearContainerView>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/agora_area_video"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/agora_small_video_h"
+            android:layout_height="0dp"
             android:background="@drawable/fcr_video_list_bg"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@id/agora_area_header"
             app:layout_constraintStart_toStartOf="@id/agora_area_header"
-            app:layout_constraintTop_toBottomOf="@id/agora_area_header">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.agora.edu.component.AgoraEduVideoComponent
-                android:id="@+id/agora_class_teacher_video"
-                android:layout_width="@dimen/agora_small_video_w"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="1dp"
-                android:visibility="gone" />
 
             <com.agora.edu.component.AgoraEduListVideoComponent
                 android:id="@+id/agora_class_user_list_video"
@@ -60,39 +54,66 @@
                 android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <com.agora.edu.component.common.AgoraEduFrameContainerView
+        
+        
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/agora_area_board"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/fcr_board_bg"
-            android:padding="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/agora_area_header"
             app:layout_constraintStart_toStartOf="@id/agora_area_header"
-            app:layout_constraintTop_toBottomOf="@id/agora_area_video">
-
-            <com.agora.edu.component.whiteboard.AgoraEduWhiteBoardComponent
-                android:id="@+id/agora_edu_whiteboard"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.agora.edu.component.teachaids.webviewwidget.FcrWebViewContainerComponent
-                android:id="@+id/fcr_edu_web_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.agora.edu.component.teachaids.component.FCRLargeWindowContainerComponent
-                android:id="@+id/agora_large_window_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.agora.edu.component.teachaids.component.AgoraEduTeachAidContainerComponent
-                android:id="@+id/teachAid_Container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.agora.edu.component.common.AgoraEduFrameContainerView>
-
+            app:layout_constraintTop_toBottomOf="@id/agora_area_video"
+            android:orientation="horizontal"
+            app:layout_constraintVertical_bias="0.0">
+            
+            <com.agora.edu.component.common.AgoraEduFrameContainerView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/fcr_board_bg"
+                android:padding="1dp"
+                android:layout_weight="628">
+                
+                <com.agora.edu.component.whiteboard.AgoraEduWhiteBoardComponent
+                    android:id="@+id/agora_edu_whiteboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                
+                <com.agora.edu.component.teachaids.webviewwidget.FcrWebViewContainerComponent
+                    android:id="@+id/fcr_edu_web_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                
+                <com.agora.edu.component.teachaids.component.FCRLargeWindowContainerComponent
+                    android:id="@+id/agora_large_window_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                
+                <com.agora.edu.component.teachaids.component.AgoraEduTeachAidContainerComponent
+                    android:id="@+id/teachAid_Container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.agora.edu.component.common.AgoraEduFrameContainerView>
+            
+            <FrameLayout
+                android:id="@+id/fl_class_teacher_video"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="317">
+                <com.agora.edu.component.AgoraEduVideoComponent
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <com.agora.edu.component.AgoraEduVideoComponent
+                    android:id="@+id/agora_class_teacher_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+            
+        
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

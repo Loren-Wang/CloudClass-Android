@@ -6,16 +6,14 @@ import android.hardware.display.DisplayManager.DisplayListener
 import android.view.Display
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.agora.edu.component.AgoraEduListVideoComponent
 import com.agora.edu.component.AgoraEduVideoComponent
 import io.agora.agoraeducore.core.context.AgoraEduContextUserRole
-import io.agora.agoraeducore.core.context.AgoraEduContextVideoSubscribeLevel
 import io.agora.agoraeducore.core.context.EduContextPool
 import io.agora.agoraeducore.core.internal.log.LogX
-import io.agora.agoraeduuikit.util.VideoUtils
 import io.agora.classroom.ui.AgoraClassTeacherVideoPresentation
 
 
@@ -116,7 +114,13 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param teacherVideoView 教师端视频流组件
      * @param eduContext 总的配置信息
      */
-    private fun setShowMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, classUserVideoView: AgoraEduListVideoComponent, eduContext: EduContextPool?) {
+    private fun setShowMoreScreenDisplay(
+        flClassTeacherVideo: FrameLayout,
+        areaViewGroup: LinearLayoutCompat,
+        teacherVideoView: AgoraEduVideoComponent,
+        classUserVideoView: AgoraEduListVideoComponent,
+        eduContext: EduContextPool?
+    ) {
         //判断新建
         val displayList = getDisplayList()
         if (displayList.size > 1 && showSecondDisplay && (currentTeacherVideoPresentation == null || !currentTeacherVideoPresentation!!.isShowing)) {
@@ -128,12 +132,12 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             //从小屏列表中移除教师视图
             smallShowLayoutParams = classUserVideoView.layoutParams
             areaViewGroup.removeView(classUserVideoView)
-            areaViewGroup.visibility = View.GONE
+            flClassTeacherVideo.visibility = View.GONE
             classUserVideoView.addTeacherScreenDisplayShow(teacherVideoView)
             //将view移动到副屏
             this.currentTeacherVideoPresentation!!.binding.root.addView(classUserVideoView, moreShowLayoutParams)
         } else {
-            setHideMoreScreenDisplay(areaViewGroup, teacherVideoView, classUserVideoView, eduContext)
+            setHideMoreScreenDisplay(flClassTeacherVideo, areaViewGroup, teacherVideoView, classUserVideoView, eduContext)
         }
     }
 
@@ -142,7 +146,13 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param areaViewGroup 原有的教师端视频流组件的父级容器
      * @param eduContext 总的配置信息
      */
-    private fun setHideMoreScreenDisplay(areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent, classUserVideoView: AgoraEduListVideoComponent, eduContext: EduContextPool?) {
+    private fun setHideMoreScreenDisplay(
+        flClassTeacherVideo: FrameLayout,
+        areaViewGroup: LinearLayoutCompat,
+        teacherVideoView: AgoraEduVideoComponent,
+        classUserVideoView: AgoraEduListVideoComponent,
+        eduContext: EduContextPool?
+    ) {
         if (currentTeacherVideoPresentation != null && currentTeacherVideoPresentation!!.isShowing) {
             //从副屏移除视图
             this.currentTeacherVideoPresentation!!.binding.root.removeView(classUserVideoView)
@@ -150,13 +160,13 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             classUserVideoView.hideScreenDisplayShow(teacherVideoView)
             classUserVideoView.layoutParams = smallShowLayoutParams
             areaViewGroup.addView(classUserVideoView, smallShowLayoutParams)
-            areaViewGroup.visibility = View.VISIBLE
-            //调低分辨率
-            eduContext?.streamContext()?.getAllStreamList()?.forEach {
-                if(it.streamUuid.isEmpty() ){
-                    eduContext.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, AgoraEduContextVideoSubscribeLevel.LOW)
-                }
-            }
+            flClassTeacherVideo.visibility = View.VISIBLE
+//            //调低分辨率
+//            eduContext?.streamContext()?.getAllStreamList()?.forEach {
+//                if(it.streamUuid.isEmpty() ){
+//                    eduContext.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, AgoraEduContextVideoSubscribeLevel.HIGH)
+//                }
+//            }
             //关闭副屏
             if (this.currentTeacherVideoPresentation!!.isShowing) {
                 this.currentTeacherVideoPresentation!!.hide()
@@ -172,7 +182,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
      * @param eduContext 总的配置信息
      */
     fun resetShowMoreDisplay(
-        showMore: Boolean, areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent,
+        showMore: Boolean, flClassTeacherVideo: FrameLayout, areaViewGroup: LinearLayoutCompat, teacherVideoView: AgoraEduVideoComponent,
         classUserVideoView: AgoraEduListVideoComponent,
         eduContext: EduContextPool?,
     ) {
@@ -181,9 +191,9 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
             this.options.runOnUiThread {
                 try {
                     if (showMore) {
-                        setShowMoreScreenDisplay(areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
+                        setShowMoreScreenDisplay(flClassTeacherVideo,areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
                     } else {
-                        setHideMoreScreenDisplay(areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
+                        setHideMoreScreenDisplay(flClassTeacherVideo,areaViewGroup, teacherVideoView,classUserVideoView, eduContext)
                     }
                 } catch (ignore: Exception) {
                     LogX.e(TAG, ignore.message)
