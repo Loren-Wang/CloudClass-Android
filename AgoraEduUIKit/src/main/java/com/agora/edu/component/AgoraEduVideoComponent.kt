@@ -15,6 +15,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import com.agora.edu.component.common.AbsAgoraEduComponent
 import com.agora.edu.component.common.IAgoraUIProvider
+import com.agora.edu.component.helper.AgoraRenderUtils
 import com.agora.edu.component.helper.AgoraUIDeviceSetting
 import com.agora.edu.component.helper.FcrClickView
 import com.agora.edu.component.teachaids.bean.StaticData
@@ -793,6 +794,17 @@ class AgoraEduVideoComponent : AbsAgoraEduComponent, IAgoraOptionListener, FcrDr
     override fun onClick() {
         LogX.e(TAG, "onClick")
         handleClick()
+    }
+
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(visibility)
+        if(curUserDetailInfo != null){
+            if(View.VISIBLE == visibility){
+                upsertUserDetailInfo(curUserDetailInfo)
+            }else{
+                AgoraRenderUtils.renderView(eduCore, null, curUserDetailInfo!!)
+            }
+        }
     }
 }
 

@@ -167,34 +167,38 @@ class AgoraClassVideoPresenter(
 
         override fun onUserListChanged(userList: List<AgoraUIUserDetailInfo>) {
             super.onUserListChanged(userList)
-            // try find teacher
-            teacherInfo = userList.find { it.role == AgoraEduContextUserRole.Teacher }
-            // show/hide layout
-            notifyVideos()
-            // 本地是否是老师
-            val localIsTeacher = localUserInfo?.role == AgoraEduContextUserRole.Teacher
-            val b = !localIsTeacher && userList.find { it.role == AgoraEduContextUserRole.Teacher } == null//本地是不是老师，且老师离线
-            if (b) {
-                teacherVideoView.upsertUserDetailInfo(null)
-            }
-            // try notify teacher video
-            teacherInfo?.let {
-                if (!teacherVideoView.largeWindowOpened) {
-                    teacherVideoView.upsertUserDetailInfo(it)
-                    eduCore?.eduContextPool()?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, this@AgoraClassVideoPresenter.videoSubscribeLevel)
+            if(View.VISIBLE == teacherVideoView.visibility) {
+                // try find teacher
+                teacherInfo = userList.find { it.role == AgoraEduContextUserRole.Teacher }
+                // show/hide layout
+                notifyVideos()
+                // 本地是否是老师
+                val localIsTeacher = localUserInfo?.role == AgoraEduContextUserRole.Teacher
+                val b = !localIsTeacher && userList.find { it.role == AgoraEduContextUserRole.Teacher } == null//本地是不是老师，且老师离线
+                if (b) {
+                    teacherVideoView.upsertUserDetailInfo(null)
+                }
+                // try notify teacher video
+                teacherInfo?.let {
+                    if (!teacherVideoView.largeWindowOpened) {
+                        teacherVideoView.upsertUserDetailInfo(it)
+                        eduCore?.eduContextPool()?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it.streamUuid, this@AgoraClassVideoPresenter.videoSubscribeLevel)
+                    }
                 }
             }
         }
 
         override fun onVolumeChanged(volume: Int, streamUuid: String) {
-            if (streamUuid == teacherInfo?.streamUuid) {
+            if (View.VISIBLE == teacherVideoView.visibility && streamUuid == teacherInfo?.streamUuid) {
                 teacherVideoView.updateAudioVolumeIndication(volume, streamUuid)
             }
         }
     }
 
     override fun onRendererContainer(viewGroup: ViewGroup?, info: AgoraUIUserDetailInfo) {
-        AgoraRenderUtils.renderView(eduCore, viewGroup, info)
+        if(View.VISIBLE == viewGroup?.visibility){
+            AgoraRenderUtils.renderView(eduCore, viewGroup, info)
+        }
     }
 
     fun release() {

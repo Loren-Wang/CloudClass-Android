@@ -369,9 +369,6 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     fun addTeacherScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
         showScreenDisplay = true
         teacherVideoView.visibility = View.GONE
-        teacherVideoView.curUserDetailInfo?.let {
-            eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(it.streamUuid)
-        }
         this.teacherVideoView = teacherVideoView
         resetShowAdapterList()
     }
@@ -380,19 +377,8 @@ class AgoraEduListVideoComponent : AbsAgoraEduComponent {
     fun hideScreenDisplayShow(teacherVideoView: AgoraEduVideoComponent) {
         showScreenDisplay = false
         teacherVideoView.visibility = View.VISIBLE
-//        mVideoAdapter.showList.forEach {
-//            eduCore?.eduContextPool()?.mediaContext()?.stopRenderVideo(it.info.streamUuid)
-//        }
-//        roomUuid?.let {teacherVideoView.largeWindowOpened = teacherVideoView.curUserDetailInfo?.streamUuid?.let { it1 -> FCRLargeWindowManager.isLargeWindow(it, it1) } == true }
-//        teacherVideoView.initView(agoraUIProvider)
         teacherVideoView.upsertUserDetailInfo(teacherVideoView.curUserDetailInfo)
         teacherVideoView.curUserDetailInfo?.streamUuid?.let { eduContext?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it, AgoraEduContextVideoSubscribeLevel.HIGH) }
-//        teacherVideoView.curUserDetailInfo?.streamUuid?.let {
-//            teacherVideoView.updateAudioVolumeIndication(0, it)
-//            eduCore?.eduContextPool()?.mediaContext()?.startRenderVideo(EduContextRenderConfig(), teacherVideoView, it)
-//            eduContext?.streamContext()?.setRemoteVideoStreamSubscribeLevel(it, AgoraEduContextVideoSubscribeLevel.HIGH)
-//        }
-
         this.teacherVideoView = null
         resetShowAdapterList()
     }
