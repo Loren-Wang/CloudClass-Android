@@ -24,6 +24,7 @@ import io.agora.agoraeduuikit.component.toast.AgoraUIToast
 import io.agora.agoraeduuikit.interfaces.listeners.IAgoraUIVideoListener
 import io.agora.agoraeduuikit.provider.AgoraUIUserDetailInfo
 import io.agora.agoraeduuikit.provider.UIDataProviderListenerImpl
+import io.agora.classroom.helper.FcrScreenDisplayManager
 import io.agora.classroom.ui.AgoraClassUIController
 
 /**
@@ -167,7 +168,7 @@ class AgoraClassVideoPresenter(
 
         override fun onUserListChanged(userList: List<AgoraUIUserDetailInfo>) {
             super.onUserListChanged(userList)
-            if(View.VISIBLE == teacherVideoView.visibility) {
+            if(!FcrScreenDisplayManager.currentSecondIsShow) {
                 // try find teacher
                 teacherInfo = userList.find { it.role == AgoraEduContextUserRole.Teacher }
                 // show/hide layout
@@ -196,7 +197,7 @@ class AgoraClassVideoPresenter(
     }
 
     override fun onRendererContainer(viewGroup: ViewGroup?, info: AgoraUIUserDetailInfo) {
-        if(View.VISIBLE == viewGroup?.visibility){
+        if(!FcrScreenDisplayManager.currentSecondIsShow){
             AgoraRenderUtils.renderView(eduCore, viewGroup, info)
         }
     }

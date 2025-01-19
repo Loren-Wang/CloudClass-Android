@@ -52,6 +52,11 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
          * 是否显示副屏
          */
         var showSecondDisplay = false
+
+        /**
+         * 当前副屏是否显示
+         */
+        var currentSecondIsShow = false
     }
 
     private val TAG = "ScreenDisplayManager"
@@ -124,6 +129,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
         //判断新建
         val displayList = getDisplayList()
         if (displayList.size > 1 && showSecondDisplay && (currentTeacherVideoPresentation == null || !currentTeacherVideoPresentation!!.isShowing)) {
+            currentSecondIsShow = true
             //初始化
             currentTeacherVideoPresentation?.dismiss()
             currentTeacherVideoPresentation = AgoraClassTeacherVideoPresentation(this.options.getActivityContext(), displayList[1])
@@ -154,6 +160,7 @@ class FcrScreenDisplayManager(private val options: FcrScreenDisplayOptions) {
         eduContext: EduContextPool?
     ) {
         if (currentTeacherVideoPresentation != null && currentTeacherVideoPresentation!!.isShowing) {
+            currentSecondIsShow = false
             //从副屏移除视图
             this.currentTeacherVideoPresentation!!.binding.root.removeView(classUserVideoView)
             //将视图添加到小屏
